@@ -2,6 +2,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const userRoutes = require('./routes/userRoutes'); 
+const projectRoutes = require('./routes/projectRoutes');
+const recurringDonationRoutes = require('./routes/recurringDonationRoutes');
+const investmentRoutes = require('./routes/investmentRoutes');
+const milestoneRoutes = require('./routes/milestoneRoutes');
+const notificationRoutes = require('./routes/notificationRoutes');
 
 dotenv.config();
 const app = express();
@@ -18,9 +24,13 @@ mongoose.connect(process.env.MONGO_URI, {
 .then(() => console.log("MongoDB Atlas connected"))
 .catch(err => console.log("Error: " + err));
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Use routes
+app.use('/api/users', userRoutes);
+app.use('/api', projectRoutes);
+app.use('/api', recurringDonationRoutes);
+app.use('/api', investmentRoutes);
+app.use('/api', milestoneRoutes);
+app.use('/api', notificationRoutes);
 
-app.get('/', (req, res) => {
-    res.send('Backend is working!');
-  });
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   
