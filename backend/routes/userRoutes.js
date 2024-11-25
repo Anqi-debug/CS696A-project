@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
 
-router.post('/', userController.registerUser);
-router.put('/:userId', userController.updatePortfolio);
-router.get('/:userId', userController.getPortfolio);
+router.post('/users', userController.registerUser);
+router.post('/users/login', userController.loginUser);
+router.put('/users/:userId', userController.updatePortfolio);
+router.get('/users/:userId', userController.getPortfolio);
 
 module.exports = router;

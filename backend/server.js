@@ -25,7 +25,7 @@ mongoose.connect(process.env.MONGO_URI, {
 .catch(err => console.log("Error: " + err));
 
 // Use routes
-app.use('/api/users', userRoutes);
+app.use('/api', userRoutes);
 app.use('/api', projectRoutes);
 app.use('/api', recurringDonationRoutes);
 app.use('/api', investmentRoutes);

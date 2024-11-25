@@ -28,10 +28,7 @@ exports.registerUser = async (req, res) => {
     // Save the user to the database
     await newUser.save();
 
-    // Generate a JWT token (optional)
-    if (!process.env.JWT_SECRET) {
-      throw new Error('JWT_SECRET is not defined');
-    }
+    // Generate a JWT token
     const token = jwt.sign({ id: newUser._id, role: newUser.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     res.status(201).json({
@@ -41,6 +38,41 @@ exports.registerUser = async (req, res) => {
         name: newUser.name,
         email: newUser.email,
         role: newUser.role
+      },
+      token
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// User login
+exports.loginUser = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Find the user by email
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Check the password
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+
+    // Generate a JWT token
+    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    res.status(200).json({
+      message: 'User logged in successfully',
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role
       },
       token
     });
