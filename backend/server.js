@@ -8,6 +8,7 @@ const recurringDonationRoutes = require('./routes/recurringDonationRoutes');
 const investmentRoutes = require('./routes/investmentRoutes');
 const milestoneRoutes = require('./routes/milestoneRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 dotenv.config();
 const app = express();
@@ -31,6 +32,7 @@ app.use('/api', recurringDonationRoutes);
 app.use('/api', investmentRoutes);
 app.use('/api', milestoneRoutes);
 app.use('/api', notificationRoutes);
+app.use('/api', adminRoutes);
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   
