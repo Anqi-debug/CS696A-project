@@ -4,8 +4,7 @@ const router = express.Router();
 const projectController = require('../controllers/projectController');
 
 // Create a new project
-router.post('/projects', projectController.createProject);
-
+router.post('/recurring-fundraiser', projectController.createRecurringFundraiser);
 // Get all projects
 router.get('/projects', projectController.getAllProjects);
 

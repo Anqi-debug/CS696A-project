@@ -6,7 +6,7 @@ const milestoneSchema = new mongoose.Schema({
   projectId: { type: Schema.Types.ObjectId, ref: 'Project', required: true }, // References the Projects collection
   milestoneGoal: { type: Number, required: true }, // Funding goal for this milestone
   dueDate: { type: Date, required: true },
-  status: { type: String, enum: ['Pending', 'Completed'], default: 'Pending' },
+  isComplete: { type: Boolean, default: false },
   completionDate: { type: Date, default: null } // Timestamp for when the milestone is completed
 }, {
   timestamps: true // Adds createdAt and updatedAt fields

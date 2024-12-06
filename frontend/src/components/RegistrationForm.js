@@ -5,32 +5,31 @@ import axios from '../services/api';
 const RegistrationForm = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: '',
+    username: '', // Ensure initial value is an empty string
     email: '',
     password: '',
-    role: 'donor'
+    role: 'donor', // Default value for the dropdown
   });
   const [error, setError] = useState('');
 
-  // Handle input changes
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/users', formData);
+      console.log('Submitting registration data:', formData);
+      const response = await axios.post('/users/registration', formData);
       if (response.status === 201) {
-        // Redirect based on role
-        const { role } = response.data.user;
+        const { role } = response.data.user || {}; // Handle case where user might be missing
+        console.log('Registration successful:', response.data);
         if (role === 'creator') navigate('/dashboard-creator');
         else if (role === 'donor') navigate('/dashboard-donor');
         else if (role === 'admin') navigate('/dashboard-admin');
       }
     } catch (err) {
-      setError(err.response?.data?.error || 'Registration failed');
+      setError(err.response?.data?.message || 'Registration failed');
     }
   };
 
@@ -41,9 +40,9 @@ const RegistrationForm = () => {
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          name="name"
-          placeholder="Name"
-          value={formData.name}
+          name="username"
+          placeholder="Username"
+          value={formData.username} // Always controlled
           onChange={handleChange}
           required
         />
@@ -51,7 +50,7 @@ const RegistrationForm = () => {
           type="email"
           name="email"
           placeholder="Email"
-          value={formData.email}
+          value={formData.email} // Always controlled
           onChange={handleChange}
           required
         />
@@ -59,11 +58,15 @@ const RegistrationForm = () => {
           type="password"
           name="password"
           placeholder="Password"
-          value={formData.password}
+          value={formData.password} // Always controlled
           onChange={handleChange}
           required
         />
-        <select name="role" value={formData.role} onChange={handleChange}>
+        <select
+          name="role"
+          value={formData.role} // Always controlled
+          onChange={handleChange}
+        >
           <option value="donor">Donor</option>
           <option value="creator">Creator</option>
           <option value="admin">Admin</option>

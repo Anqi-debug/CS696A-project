@@ -7,7 +7,7 @@ const investmentSchema = new mongoose.Schema({
   projectId: { type: Schema.Types.ObjectId, ref: 'Project', required: true }, // References the Projects collection
   investmentAmount: { type: Number, required: true }, // Amount invested
   potentialReturns: { type: Number, default: 0 }, // Projected returns based on project success
-  investmentDate: { type: Date, default: Date.now }, // Date of investment
+  date: { type: Date, default: Date.now }, // Date of investment
   status: { 
     type: String, 
     enum: ['active', 'completed', 'canceled'], 
