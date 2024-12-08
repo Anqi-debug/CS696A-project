@@ -1,5 +1,5 @@
-const User = require('../models/user.model');
-const Project = require('../models/project.model');
+const User = require('../models/user');
+const Project = require('../models/project');
 
 // Get user success metrics
 exports.getUserMetrics = async (req, res) => {

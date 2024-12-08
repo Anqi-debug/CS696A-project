@@ -1,4 +1,4 @@
-const Milestone = require('../models/milestone.model');
+const Milestone = require('../models/milestone');
 const mongoose = require('mongoose');
 
 // Create a new milestone

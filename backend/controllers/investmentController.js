@@ -1,6 +1,6 @@
-const Investment = require('../models/investment.model');
-const Project = require('../models/project.model');
-const User = require('../models/user.model');
+const Investment = require('../models/investment');
+const Project = require('../models/project');
+const User = require('../models/user');
 
 // Create a new investment
 exports.createInvestment = async (req, res) => {
