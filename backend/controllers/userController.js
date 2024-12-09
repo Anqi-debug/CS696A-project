@@ -58,19 +58,17 @@ exports.login = async (req, res) => {
 
   try {
       // Search for the user by username or email
-      const user = await User.findOne({
-          $or: [{ username: username }, { email: email }] // Search by either username or email
-      });
+      const user = await User.findOne({ email });
 
       if (!user) {
-          return res.status(404).json({ message: 'User not found.' });
+          return res.status(404).json({ error: 'User not found.' });
       }
 
       // Use bcrypt.compare to verify the password asynchronously
       const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
       if (!isPasswordCorrect) {
-          return res.status(401).json({ message: 'Invalid credentials.' });
+          return res.status(401).json({ error: 'Invalid credentials.' });
       }
 
       // Remove password field from the user object
@@ -81,12 +79,18 @@ exports.login = async (req, res) => {
 
       res.status(200).json({
           message: 'Login successful',
+          user: {
+            id: user._id,
+            name: user.name,
+            email: user.email,
+            role: user.role
+          },
           token: tokenStr
       });
 
   } catch (err) {
       console.error(err);
-      res.status(500).json({ message: 'Server error during login.' });
+      res.status(500).json({ error: 'Server error during login.' });
   }
 };
 

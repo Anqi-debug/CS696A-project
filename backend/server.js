@@ -7,6 +7,7 @@ const Joi = require('joi');
 const app = express();
 const dotenv = require('dotenv');
 dotenv.config();
+require('dotenv').config();
 
 // Create server instance
 const PORT = process.env.PORT || 5000;

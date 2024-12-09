@@ -32,7 +32,13 @@ const Login = () => {
         setError('Invalid user role');
       }
     } catch (err) {
-      setError(err.response?.data?.error || 'An error occurred');
+      if (err.response?.status === 404) {
+        setError('User not found.');
+      } else if (err.response?.status === 401) {
+        setError('Invalid credentials.');
+      } else {
+        setError('An error occurred. Please try again.');
+      }
     }
   };
 
