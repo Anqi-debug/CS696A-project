@@ -1,94 +1,68 @@
 const Project = require('../models/project');
-const User = require('../models/user');
 const Donation = require('../models/donation');
 
-// Create a new recurring fundraiser
+// Create a new recurring fundraiser with file upload support
 exports.createRecurringFundraiser = async (req, res) => {
   try {
-      const {
-          creatorId,
-          campaignName,
-          description,
-          monthlyGoal, // Corrected spelling
-          goalAmount,
-          projectTimeline,
-          status,
-          portfolio,
-          fundsRaised,
-          donorCount,
-          investmentTerms,
-          donationAmount,
-          frequency,
-      } = req.body;
+    const {
+      creatorId,
+      campaignName,
+      description,
+      monthlyGoal,
+      goalAmount,
+      projectTimeline,
+      status,
+      fundsRaised,
+      donorCount,
+      investmentTerms,
+      frequency,
+    } = req.body;
 
-      // Validate input fields
-      if (
-          !creatorId ||
-          !campaignName ||
-          !description ||
-          !monthlyGoal ||
-          !goalAmount ||
-          !projectTimeline ||
-          !status ||
-          !portfolio ||
-          !fundsRaised ||
-          !donorCount ||
-          !investmentTerms ||
-          !donationAmount ||
-          !frequency
-      ) {
-          return res.status(400).json({ message: 'All fields are required.' });
-      }
+    // Handle uploaded files
+    const portfolio = req.files.map((file) => file.path); // Save file paths
 
-      // Create the project
-      const newProject = new Project({
-          creatorId,
-          campaignName,
-          description,
-          monthlyGoal,
-          goalAmount,
-          projectTimeline,
-          status,
-          portfolio,
-          fundsRaised,
-          donorCount,
-          investmentTerms,
-          donations: [],
-          recurringDonations: [],
-          investments: [],
-      });
+    // Validate input fields
+    if (
+      !creatorId ||
+      !campaignName ||
+      !description ||
+      !monthlyGoal ||
+      !goalAmount ||
+      !projectTimeline ||
+      !status ||
+      !portfolio ||
+      !fundsRaised ||
+      !donorCount ||
+      !investmentTerms ||
+      !frequency
+    ) {
+      return res.status(400).json({ message: 'All fields are required.' });
+    }
 
-      // Save the new project
-      const savedProject = await newProject.save();
+    // Create and save the project
+    const newProject = new Project({
+      creatorId,
+      campaignName,
+      description,
+      monthlyGoal,
+      goalAmount,
+      projectTimeline,
+      status,
+      portfolio,
+      fundsRaised,
+      donorCount,
+      investmentTerms,
+    });
 
-      // Create a recurring donation
-      const newDonation = new Donation({
-          donorId: creatorId, // Assuming creator is also the donor for recurring donations
-          projectId: savedProject._id,
-          amount: donationAmount,
-          frequency,
-          nextPaymentDate: new Date(),
-          lastPaymentDate: null,
-          isActive: true,
-      });
+    const savedProject = await newProject.save();
 
-      // Save the donation
-      const savedDonation = await newDonation.save();
-
-      // Link the recurring donation to the project
-      savedProject.recurringDonations.push(savedDonation._id);
-      await savedProject.save();
-
-      res.status(201).json({
-          message: 'Recurring fundraiser created successfully',
-          project: savedProject,
-      });
+    res.status(201).json({
+      message: 'Recurring fundraiser created successfully',
+      project: savedProject,
+    });
   } catch (error) {
-      console.error('Error creating recurring fundraiser:', error);
-      res.status(500).json({
-          message: 'Error creating recurring fundraiser',
-          error: error.message,
-      });
+    console.error('Error creating recurring fundraiser:', error);
+    res.status(500).json({ message: 'Error creating recurring fundraiser', error: error.message });
   }
 };
 
@@ -105,7 +79,7 @@ exports.getAllProjects = async (req, res) => {
 // Get a specific project by ID
 exports.getProjectById = async (req, res) => {
   const { projectId } = req.params;
-  
+
   try {
     const project = await Project.findById(projectId).populate('creatorId', 'name email');
     if (!project) {

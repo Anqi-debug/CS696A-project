@@ -72,7 +72,7 @@ const metricsRoutes = require('./routes/metricsRoutes');
 
 // Use routes
 app.use('/api/users', userRoutes);
-app.use('/api', projectRoutes);
+app.use('/api/projects', projectRoutes);
 app.use('/api', donationRoutes);
 app.use('/api/investments', investmentRoutes);
 app.use('/api/milestones', milestoneRoutes);

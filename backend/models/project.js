@@ -22,7 +22,15 @@ const projectSchema = new Schema({
   goalAmount: { type: Number, required: true },
   projectTimeline: { type: String },
   status: { type: String, enum: ['Pending', 'Approved', 'Rejected'], default: 'Pending' },
-  portfolio: [{ type: String, maxlength: 5 }], // Stores up to 5 portfolio files or images
+  portfolio: {
+    type: [String], // Array of strings for file paths
+    validate: {
+      validator: function (array) {
+        return array.length <= 5; // Limit to 5 files
+      },
+      message: 'Portfolio can contain up to 5 files only.'
+    }
+  }, // Stores up to 5 portfolio files or images
   //milestones: [milestoneSchema],
   fundsRaised: { type: Number, default: 0 },
   donorCount: { type: Number, default: 0 },

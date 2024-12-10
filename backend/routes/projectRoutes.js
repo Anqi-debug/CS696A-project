@@ -1,20 +1,19 @@
-// routes/projectRoutes.js
 const express = require('express');
 const router = express.Router();
 const projectController = require('../controllers/projectController');
+const upload = require('../middleware/upload'); // Import multer configuration
 
-// Create a new project
-router.post('/recurring-fundraiser', projectController.createRecurringFundraiser);
-// Get all projects
-router.get('/projects', projectController.getAllProjects);
+// Create a new project with file upload
+router.post(
+  '/recurring-fundraiser',
+  upload.array('portfolio', 5), // Accept up to 5 files under the 'portfolio' field
+  projectController.createRecurringFundraiser
+);
 
-// Get a specific project by ID
-router.get('/projects/:projectId', projectController.getProjectById);
-
-// Update a project by ID
-router.put('/projects/:projectId', projectController.updateProject);
-
-// Delete a project by ID
-router.delete('/projects/:projectId', projectController.deleteProject);
+// Other routes remain the same
+router.get('/', projectController.getAllProjects);
+router.get('/:projectId', projectController.getProjectById);
+router.put('/:projectId', projectController.updateProject);
+router.delete('/:projectId', projectController.deleteProject);
 
 module.exports = router;
