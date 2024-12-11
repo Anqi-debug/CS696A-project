@@ -11,9 +11,9 @@ const CreateFundraiserForm = () => {
     projectTimeline: '',
     status: 'Pending',
     portfolio: [], // Array to store files
-    fundsRaised: 0,
-    donorCount: 0,
-    investmentTerms: '',
+    //fundsRaised: 0,
+    //donorCount: 0,
+    //investmentTerms: '',
     frequency: 'Monthly',
   });
 
@@ -41,8 +41,7 @@ const CreateFundraiserForm = () => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Prepare form data for file upload
+  
     const data = new FormData();
     for (let key in formData) {
       if (key === 'portfolio') {
@@ -51,7 +50,12 @@ const CreateFundraiserForm = () => {
         data.append(key, formData[key]);
       }
     }
-
+  
+    // Debug: Log FormData contents
+    for (let pair of data.entries()) {
+      console.log(pair[0], pair[1]);
+    }
+  
     try {
       const response = await createRecurringFundraiser(data);
       setMessage(response.data.message);

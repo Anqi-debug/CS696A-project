@@ -1,5 +1,6 @@
 const Project = require('../models/project');
 const Donation = require('../models/donation');
+const mongoose = require('mongoose');
 
 // Create a new recurring fundraiser with file upload support
 exports.createRecurringFundraiser = async (req, res) => {
@@ -12,14 +13,22 @@ exports.createRecurringFundraiser = async (req, res) => {
       goalAmount,
       projectTimeline,
       status,
-      fundsRaised,
-      donorCount,
-      investmentTerms,
+      //fundsRaised,
+      //donorCount,
+      //investmentTerms,
       frequency,
     } = req.body;
 
+    // Validate creatorId as ObjectId
+    if (!mongoose.Types.ObjectId.isValid(creatorId)) {
+      return res.status(400).json({ message: 'Invalid creatorId format' });
+    }
+
     // Handle uploaded files
-    const portfolio = req.files.map((file) => file.path); // Save file paths
+    const portfolio = Array.isArray(req.files) ? req.files.map((file) => file.path) : [];
+    if (portfolio.length > 5) {
+      return res.status(400).json({ message: 'Portfolio can contain up to 5 files only.' });
+    }
 
     // Validate input fields
     if (
@@ -30,13 +39,12 @@ exports.createRecurringFundraiser = async (req, res) => {
       !goalAmount ||
       !projectTimeline ||
       !status ||
-      !portfolio ||
-      !fundsRaised ||
-      !donorCount ||
-      !investmentTerms ||
+      //!fundsRaised ||
+      //!donorCount ||
+      //!investmentTerms ||
       !frequency
     ) {
-      return res.status(400).json({ message: 'All fields are required.' });
+      return res.status(400).json({ message: 'All fields except portfolio are required.' });
     }
 
     // Create and save the project
@@ -49,9 +57,9 @@ exports.createRecurringFundraiser = async (req, res) => {
       projectTimeline,
       status,
       portfolio,
-      fundsRaised,
-      donorCount,
-      investmentTerms,
+      //fundsRaised,
+      //donorCount,
+      //investmentTerms,
     });
 
     const savedProject = await newProject.save();

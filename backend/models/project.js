@@ -15,7 +15,7 @@ const promotionSchema = new Schema({
 
 // Define Project Schema
 const projectSchema = new Schema({
-  creatorId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  creatorId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
   campaignName: { type: String, required: true },
   description: { type: String, required: true },
   monthlyGoal: { type: Number },
@@ -32,9 +32,9 @@ const projectSchema = new Schema({
     }
   }, // Stores up to 5 portfolio files or images
   //milestones: [milestoneSchema],
-  fundsRaised: { type: Number, default: 0 },
-  donorCount: { type: Number, default: 0 },
-  investmentTerms: { type: String },
+  //fundsRaised: { type: Number, default: 0 },
+  //donorCount: { type: Number, default: 0 },
+  //investmentTerms: { type: String },
   donations: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Donation' }],
   recurringDonations: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Donation' }],
   investments: [{ type: Schema.Types.ObjectId, ref: 'Investment' }],
