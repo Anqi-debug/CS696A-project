@@ -22,14 +22,19 @@ const Login = () => {
       localStorage.setItem('token', token);
 
       // Navigate to the appropriate dashboard based on the user's role
-      if (user.role === 'admin') {
-        navigate('/dashboard-admin');
-      } else if (user.role === 'donor') {
-        navigate('/dashboard-donor');
-      } else if (user.role === 'creator') {
-        navigate('/dashboard-creator');
-      } else {
-        setError('Invalid user role');
+      switch (user.role) {
+        case 'admin':
+          navigate('/dashboard-admin');
+          break;
+        case 'donor':
+          navigate(`/dashboard-donor/${user.id}`);
+          break;
+        case 'creator':
+          navigate(`/dashboard-creator/${user.id}`); // Pass user ID for personalized navigation
+          break;
+        default:
+          setError('Invalid user role');
+          break;
       }
     } catch (err) {
       if (err.response?.status === 404) {

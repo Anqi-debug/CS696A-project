@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { createRecurringFundraiser } from '../services/api';
+import { useNavigate } from 'react-router-dom';
 
 const CreateFundraiserForm = () => {
   const [formData, setFormData] = useState({
@@ -11,14 +12,13 @@ const CreateFundraiserForm = () => {
     projectTimeline: '',
     status: 'Pending',
     portfolio: [], // Array to store files
-    //fundsRaised: 0,
-    //donorCount: 0,
-    //investmentTerms: '',
     frequency: 'Monthly',
   });
 
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+
+  const navigate = useNavigate();
 
   // Handle input changes
   const handleChange = (e) => {
@@ -41,7 +41,7 @@ const CreateFundraiserForm = () => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const data = new FormData();
     for (let key in formData) {
       if (key === 'portfolio') {
@@ -50,15 +50,16 @@ const CreateFundraiserForm = () => {
         data.append(key, formData[key]);
       }
     }
-  
-    // Debug: Log FormData contents
-    for (let pair of data.entries()) {
-      console.log(pair[0], pair[1]);
-    }
-  
+
     try {
       const response = await createRecurringFundraiser(data);
       setMessage(response.data.message);
+      const projectId = response.data.project?._id; // Safely retrieve project ID
+      if (projectId) {
+        navigate(`/projects/${projectId}`); // Redirect to project details
+      } else {
+        setError('Failed to retrieve project ID after creation.');
+      }
     } catch (err) {
       setError(err.response?.data?.message || 'Error creating fundraiser');
     }
@@ -116,13 +117,6 @@ const CreateFundraiserForm = () => {
           value={formData.projectTimeline}
           onChange={handleChange}
           required
-        />
-        <input
-          type="text"
-          name="status"
-          placeholder="Status"
-          value={formData.status}
-          onChange={handleChange}
         />
         <label>
           Portfolio (Upload up to 5 files):

@@ -25,4 +25,3 @@ export const updateProject = (projectId, updates) => instance.put(`/projects/${p
 export const deleteProject = (projectId) => instance.delete(`/projects/${projectId}`);
 
 export default instance;
-

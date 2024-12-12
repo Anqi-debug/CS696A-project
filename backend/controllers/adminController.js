@@ -30,12 +30,19 @@ exports.approveFundraiser = async (req, res) => {
     // Notify the creator
     const notification = new Notification({
       recipientId: project.creatorId,
-      message: `Your fundraiser "${project.campaignName}" has been approved!`
+      message: `Your fundraiser "${project.campaignName}" has been approved!`,
     });
     await notification.save();
 
+    // Emit the notification via WebSocket
+    const io = req.app.get('socketio');
+    const roomId = project.creatorId.toString();
+    console.log(`Emitting notification to room: ${roomId}`);
+    io.to(roomId).emit('notification', notification);
+
     res.status(200).json({ message: 'Fundraiser approved successfully' });
   } catch (error) {
+    console.error('Error in approveFundraiser:', error);
     res.status(500).json({ error: 'Failed to approve fundraiser' });
   }
 };
@@ -58,12 +65,20 @@ exports.rejectFundraiser = async (req, res) => {
     // Notify the creator
     const notification = new Notification({
       recipientId: project.creatorId,
-      message: `Your fundraiser "${project.campaignName}" has been rejected. Reason: ${rejectionReason}`
+      message: `Your fundraiser "${project.campaignName}" has been rejected. Reason: ${rejectionReason}`,
     });
     await notification.save();
 
+    // Emit the notification via WebSocket
+    const io = req.app.get('socketio');
+    const roomId = project.creatorId.toString();
+    console.log(`Emitting notification to room: ${roomId}`);
+    io.to(roomId).emit('notification', notification);
+
     res.status(200).json({ message: 'Fundraiser rejected successfully' });
   } catch (error) {
+    console.error('Error in rejectFundraiser:', error);
     res.status(500).json({ error: 'Failed to reject fundraiser' });
   }
 };
+

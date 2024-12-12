@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { getProjectById, updateProject } from '../services/api';
 
-const ProjectDetails = ({ projectId }) => {
+const ProjectDetails = () => {
+  const { id: projectId } = useParams(); // Retrieve project ID from URL
   const [project, setProject] = useState(null);
   const [updates, setUpdates] = useState({});
   const [error, setError] = useState('');
@@ -11,11 +13,12 @@ const ProjectDetails = ({ projectId }) => {
     const fetchProject = async () => {
       try {
         const response = await getProjectById(projectId);
-        setProject(response.data.project);
+        setProject(response.data);
       } catch (err) {
-        setError('Failed to fetch project');
+        setError('Failed to fetch project details.');
       }
     };
+
     fetchProject();
   }, [projectId]);
 
@@ -29,7 +32,7 @@ const ProjectDetails = ({ projectId }) => {
       setMessage(response.data.message);
       setProject({ ...project, ...updates });
     } catch (err) {
-      setError('Failed to update project');
+      setError('Failed to update project details.');
     }
   };
 
@@ -37,15 +40,23 @@ const ProjectDetails = ({ projectId }) => {
     <div>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {message && <p style={{ color: 'green' }}>{message}</p>}
-      {project && (
+      {project ? (
         <div>
           <h2>{project.campaignName}</h2>
-          <p>Creator: {project.creatorId.name}</p>
+          <p>Creator: {project.creatorId?.name || 'Unknown'}</p>
           <p>Description: {project.description}</p>
           <p>Goal Amount: ${project.goalAmount}</p>
-          <textarea name="description" placeholder="Update description" onChange={handleChange} />
+          <p>Status: {project.status}</p>
+          <textarea
+            name="description"
+            placeholder="Update description"
+            defaultValue={project.description}
+            onChange={handleChange}
+          />
           <button onClick={handleUpdate}>Update</button>
         </div>
+      ) : (
+        <p>Loading project details...</p>
       )}
     </div>
   );
