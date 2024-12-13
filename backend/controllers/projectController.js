@@ -102,18 +102,44 @@ exports.getProjectById = async (req, res) => {
 // Update a project by ID
 exports.updateProject = async (req, res) => {
   const { projectId } = req.params;
-  const updates = req.body;
+  const { campaignName, description, monthlyGoal, goalAmount, projectTimeline } = req.body;
 
   try {
+    // Validate input fields
+    const updates = {};
+    if (campaignName) updates.campaignName = campaignName;
+    if (description) updates.description = description;
+    if (monthlyGoal) {
+      if (isNaN(monthlyGoal) || monthlyGoal <= 0) {
+        return res.status(400).json({ error: 'Invalid monthly goal. Must be a positive number.' });
+      }
+      updates.monthlyGoal = monthlyGoal;
+    }
+    if (goalAmount) {
+      if (isNaN(goalAmount) || goalAmount <= 0) {
+        return res.status(400).json({ error: 'Invalid goal amount. Must be a positive number.' });
+      }
+      updates.goalAmount = goalAmount;
+    }
+    if (projectTimeline) updates.projectTimeline = projectTimeline;
+
+    // Ensure at least one field is being updated
+    if (Object.keys(updates).length === 0) {
+      return res.status(400).json({ error: 'No valid fields to update.' });
+    }
+
+    // Update the project
     const project = await Project.findByIdAndUpdate(projectId, updates, { new: true });
     if (!project) {
       return res.status(404).json({ error: 'Project not found' });
     }
+
     res.status(200).json({ message: 'Project updated successfully', project });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
+
 
 // Delete a project by ID
 exports.deleteProject = async (req, res) => {

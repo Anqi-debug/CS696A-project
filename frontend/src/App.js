@@ -6,6 +6,7 @@ import LoginForm from './pages/LoginForm';
 import CreateFundraiserForm from './pages/CreateFundraiserForm';
 import ProjectsList from './pages/ProjectsList';
 import ProjectDetails from './pages/ProjectDetails';
+import ProjectConfirm from './pages/ProjectConfirm';
 import DashboardCreator from './pages/DashboardCreator';
 import DashboardDonor from './pages/DashboardDonor';
 import DashboardAdmin from './pages/DashboardAdmin';
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/projects/recurring-fundraiser" element={<CreateFundraiserForm />} />
         <Route path="/projects" element={<ProjectsList />} />
         <Route path="/projects/:id" element={<ProjectDetails />} />
+        <Route path="/project-confirm/:id" element={<ProjectConfirm />} />
         <Route path="/dashboard-creator/:id" element={<DashboardCreator />} />
         <Route path="/dashboard-donor/:id" element={<DashboardDonor />} />
         <Route path="/dashboard-admin" element={<DashboardAdmin />} />

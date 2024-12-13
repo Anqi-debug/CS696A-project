@@ -54,9 +54,10 @@ const CreateFundraiserForm = () => {
     try {
       const response = await createRecurringFundraiser(data);
       setMessage(response.data.message);
+
       const projectId = response.data.project?._id; // Safely retrieve project ID
       if (projectId) {
-        navigate(`/projects/${projectId}`); // Redirect to project details
+        navigate(`/project-confirm/${projectId}`); // Redirect to ProjectConfirm page
       } else {
         setError('Failed to retrieve project ID after creation.');
       }
