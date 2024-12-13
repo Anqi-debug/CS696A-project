@@ -10,10 +10,22 @@ router.post(
   projectController.createRecurringFundraiser
 );
 
-// Other routes remain the same
+// Get all projects
 router.get('/', projectController.getAllProjects);
+
+// Get all approved projects
+router.get('/approved', projectController.getApprovedProjects);
+
+// Get a specific project by ID
 router.get('/:projectId', projectController.getProjectById);
+
+// Update a project by ID
 router.put('/:projectId', projectController.updateProject);
+
+// Delete a project by ID
 router.delete('/:projectId', projectController.deleteProject);
+
+//Create a milestone
+router.get('/:projectId/milestones', projectController.getProjectMilestones);
 
 module.exports = router;

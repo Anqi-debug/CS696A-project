@@ -1,71 +1,87 @@
 const Donation = require('../models/donation');
 const Project = require('../models/project');
-const User = require('../models/user');
+const mongoose = require('mongoose');
+const Notification = require('../models/notification');
+const Stripe = require('stripe');
 require('dotenv').config();
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-// Create a new donation
-exports.createDonation = async (req, res) => {
+exports.processStripePayment = async (req, res) => {
+  const { amount, currency, projectId, donorId, token } = req.body;
+
+  console.log('Processing Stripe Payment:', { amount, currency, projectId, donorId, token }); // Debug log
+
   try {
-      const { projectId } = req.params;
-      const { donorId, amount } = req.body;
+    if (!mongoose.Types.ObjectId.isValid(donorId)) {
+      return res.status(400).json({ error: 'Invalid donorId format' });
+    }
 
-      // Validate donorId and amount
-      if (!donorId || !amount || isNaN(amount) || amount <= 0) {
-          return res.status(400).json({ message: 'Invalid payment data. Please provide donorId and a valid amount.' });
+    const project = await Project.findById(projectId);
+    if (!project) {
+      return res.status(404).json({ error: 'Project not found' });
+    }
+
+    const charge = await stripe.charges.create({
+      amount: Math.round(amount * 100),
+      currency: currency || 'usd',
+      source: token,
+      description: `Donation for Project: ${project.campaignName}`,
+    });
+
+    const donation = new Donation({
+      projectId,
+      donorId: new mongoose.Types.ObjectId(donorId),
+      amount,
+      currency: currency || 'usd',
+      paymentId: charge.id,
+    });
+    await donation.save();
+
+    project.fundsRaised += amount;
+
+    // Check if fundsRaised exceeds monthlyGoal
+    if (project.fundsRaised >= project.monthlyGoal) {
+      project.totalRaised += project.fundsRaised;
+      project.fundsRaised = 0; // Reset fundsRaised for the next term
+
+      const notification = new Notification({
+        recipientId: project.creatorId,
+        message: `Congratulations! Your project "${project.campaignName}" has exceeded its term ${project.term} goal.`,
+      });
+      await notification.save();
+      project.term += 1;
+
+      // Send the notification via WebSocket if configured
+      const io = req.app.get('socketio');
+      if (io) {
+        io.to(project.creatorId.toString()).emit('notification', notification);
       }
+    }
 
-      // Check if the project exists and its status
-      const project = await Project.findById(projectId);
-      if (!project) {
-          return res.status(404).json({ message: 'Project not found' });
+    // Check if totalRaised exceeds goalAmount
+    if (project.totalRaised >= project.goalAmount) {
+      const notification = new Notification({
+        recipientId: project.creatorId,
+        message: `Amazing! Your project "${project.campaignName}" has reached its overall goal.`,
+      });
+      await notification.save();
+
+      // Send the notification via WebSocket if configured
+      const io = req.app.get('socketio');
+      if (io) {
+        io.to(project.creatorId.toString()).emit('notification', notification);
       }
+    }
 
-      // Prevent donation if the project is cancelled or completed
-      if (['cancelled', 'completed'].includes(project.status)) {
-          return res.status(400).json({ message: `Payments are not accepted for ${project.status} projects.` });
-      }
+    await project.save();
 
-      // Process payment through Stripe
-      const paymentIntent = await stripe.paymentIntents.create({
-          amount: Math.round(amount * 100), // Convert to cents
-          currency: 'usd',
-          payment_method_types: ['card'], // Accept card payments
-          metadata: { donorId, projectId }, // Include metadata for tracking
-      });
-
-      // Proceed with donation if the project is active
-      const donation = new Donation({
-          projectId,
-          donorId,
-          amount,
-          paymentId: paymentIntent.id,
-          status: paymentIntent.status,
-      });
-      await donation.save();
-
-      // Increment the amountRaised for the project
-      await Project.findByIdAndUpdate(projectId, {
-          $inc: { amountRaised: amount }
-      });
-      
-      const updatedProject = await Project.findById(projectId).select('amountRaised');
-      
-      res.send({
-          status: 0,
-          message: 'Donation successful',
-          data: {
-              donation,
-              projectId,
-              amountRaised: updatedProject.amountRaised
-          }
-      });
-
-  } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Internal server error', error: error.message });
+    res.status(200).json({ message: 'Donation successful', donation });
+  } catch (err) {
+    console.error('Error processing payment:', err.message);
+    res.status(500).json({ error: 'Payment processing failed', details: err.message });
   }
 };
+
 
 // Fetch all donations for a specific user
 exports.getUserDonation = async (req, res) => {
@@ -77,6 +93,7 @@ exports.getUserDonation = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
 
 // Update a donation (e.g., change amount or frequency)
 exports.updateDonation = async (req, res) => {

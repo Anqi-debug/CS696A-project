@@ -23,5 +23,6 @@ export const getAllProjects = () => instance.get('/projects');
 export const getProjectById = (projectId) => instance.get(`/projects/${projectId}`);
 export const updateProject = (projectId, updates) => instance.put(`/projects/${projectId}`, updates);
 export const deleteProject = (projectId) => instance.delete(`/projects/${projectId}`);
+export const getApprovedProjects = () => instance.get('/projects/approved');
 
 export default instance;

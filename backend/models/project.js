@@ -32,7 +32,9 @@ const projectSchema = new Schema({
     }
   }, // Stores up to 5 portfolio files or images
   //milestones: [milestoneSchema],
-  //fundsRaised: { type: Number, default: 0 },
+  term: { type: Number, default: 1 },
+  fundsRaised: { type: Number, default: 0 },
+  totalRaised: { type: Number, default: 0 },
   //donorCount: { type: Number, default: 0 },
   //investmentTerms: { type: String },
   donations: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Donation' }],

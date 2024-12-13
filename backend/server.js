@@ -74,10 +74,10 @@ const metricsRoutes = require('./routes/metricsRoutes');
 // Use routes
 app.use('/api/users', userRoutes);
 app.use('/api/projects', projectRoutes);
-app.use('/api', donationRoutes);
+app.use('/api/donations', donationRoutes);
 app.use('/api/investments', investmentRoutes);
 app.use('/api/milestones', milestoneRoutes);
-app.use('/api', adminRoutes);
+app.use('/api/admin', adminRoutes);
 app.use('/api/metrics', metricsRoutes);
 app.use('/api/notifications', notificationRoutes);
 
@@ -109,7 +109,7 @@ io.of('/').adapter.on('join-room', (room, id) => {
 });*/
 
 // Make the Socket.IO instance available globally
-app.set('socketio', io);
+//app.set('socketio', io);
 
 // Handle Joi validation errors
 app.use((err, req, res, next) => {

@@ -18,8 +18,9 @@ const Login = () => {
 
       const { token, user } = response.data;
 
-      // Store token in localStorage
+      // Store token and userId in localStorage
       localStorage.setItem('token', token);
+      localStorage.setItem('userId', user.id); // Save the userId to local storage
 
       // Navigate to the appropriate dashboard based on the user's role
       switch (user.role) {

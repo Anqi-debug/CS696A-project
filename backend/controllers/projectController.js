@@ -1,5 +1,4 @@
 const Project = require('../models/project');
-const Donation = require('../models/donation');
 const mongoose = require('mongoose');
 
 // Create a new recurring fundraiser with file upload support
@@ -13,9 +12,6 @@ exports.createRecurringFundraiser = async (req, res) => {
       goalAmount,
       projectTimeline,
       status,
-      //fundsRaised,
-      //donorCount,
-      //investmentTerms,
       frequency,
     } = req.body;
 
@@ -39,9 +35,6 @@ exports.createRecurringFundraiser = async (req, res) => {
       !goalAmount ||
       !projectTimeline ||
       !status ||
-      //!fundsRaised ||
-      //!donorCount ||
-      //!investmentTerms ||
       !frequency
     ) {
       return res.status(400).json({ message: 'All fields except portfolio are required.' });
@@ -57,9 +50,6 @@ exports.createRecurringFundraiser = async (req, res) => {
       projectTimeline,
       status,
       portfolio,
-      //fundsRaised,
-      //donorCount,
-      //investmentTerms,
     });
 
     const savedProject = await newProject.save();
@@ -79,6 +69,16 @@ exports.getAllProjects = async (req, res) => {
   try {
     const projects = await Project.find().populate('creatorId', 'name email');
     res.status(200).json({ projects });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Get all approved projects
+exports.getApprovedProjects = async (req, res) => {
+  try {
+    const approvedProjects = await Project.find({ status: 'Approved' }).populate('creatorId', 'name');
+    res.status(200).json({ projects: approvedProjects });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -127,5 +127,33 @@ exports.deleteProject = async (req, res) => {
     res.status(200).json({ message: 'Project deleted successfully' });
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+};
+
+//Create a milestone
+exports.getProjectMilestones = async (req, res) => {
+  const { projectId } = req.params;
+
+  try {
+    const project = await Project.findById(projectId);
+
+    if (!project) {
+      return res.status(404).json({ error: 'Project not found' });
+    }
+
+    // Calculate milestone data
+    const milestones = {
+      monthlyGoal: project.monthlyGoal,
+      fundsRaised: project.fundsRaised,
+      totalRaised: project.totalRaised,
+      goalAmount: project.goalAmount,
+      achievedMonthly: project.fundsRaised / project.monthlyGoal * 100, // Percentage of monthly goal achieved
+      achievedTotal: project.totalRaised / project.goalAmount * 100, // Percentage of total goal achieved
+    };
+
+    res.status(200).json({ milestones });
+  } catch (err) {
+    console.error('Error fetching milestones:', err);
+    res.status(500).json({ error: 'Failed to fetch milestones' });
   }
 };
