@@ -1,14 +1,13 @@
-// Middleware to check user roles
-const roleAuth = (...allowedRoles) => {
+const authorizeRoles = (...allowedRoles) => {
   return (req, res, next) => {
-    const role = req.user?.role; // Assuming the user's role is attached to the req.user object
+    const userRole = req.user.role; // Assuming `req.user` contains the authenticated user's info
 
-    if (!allowedRoles.includes(role)) {
+    if (!allowedRoles.includes(userRole)) {
       return res.status(403).json({ message: 'Access denied. You do not have the required permissions.' });
     }
 
-    next(); // Proceed to the next middleware/route handler if role is allowed
+    next(); // Proceed if the user's role is authorized
   };
 };
 
-module.exports = roleAuth;
+module.exports = authorizeRoles;

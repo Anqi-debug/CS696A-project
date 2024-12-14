@@ -1,15 +1,25 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const DashboardDonor = () => {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Navigate to PublicProfile page after login
-    navigate('/public-profile');
-  }, [navigate]);
+  const handleNavigateToProfile = () => {
+    navigate('/public-profile'); // Navigate to the PublicProfile page when the button is clicked
+  };
 
-  return null; // No UI is rendered as this is purely for redirection
+  return (
+    <div>
+      <div>
+        <h1>Donor Dashboard</h1>
+        <button onClick={handleNavigateToProfile}>Go to Public Profile</button>
+      </div>
+      <div>
+        <p>Welcome to your dashboard. Here you can manage your donations and track progress.</p>
+        {/* Additional donor-related content can go here */}
+      </div>
+    </div>
+  );
 };
 
 export default DashboardDonor;

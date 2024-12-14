@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const DashboardCreator = () => {
   const { id: userId } = useParams(); // Get userId from the URL
+  const navigate = useNavigate(); // Hook to navigate programmatically
   const [notifications, setNotifications] = useState([]);
   const [error, setError] = useState('');
 
@@ -55,9 +56,19 @@ const DashboardCreator = () => {
     }
   };
 
+  // Navigate to the "Create Fundraiser" page
+  const handleNavigateToCreateFundraiser = () => {
+    navigate('/projects/recurring-fundraiser');
+  };
+
   return (
     <div>
-      <h1>Welcome to the Creator Dashboard!</h1>
+      <div>
+        <h1>Creator Dashboard</h1>
+        <button onClick={handleNavigateToCreateFundraiser}>
+          Create a New Recurring Fundraiser
+        </button>
+      </div>
       <h2>Notifications</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {notifications.length === 0 ? (
