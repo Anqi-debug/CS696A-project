@@ -109,7 +109,7 @@ io.of('/').adapter.on('join-room', (room, id) => {
 });*/
 
 // Make the Socket.IO instance available globally
-//app.set('socketio', io);
+app.set('socketio', io);
 
 // Handle Joi validation errors
 app.use((err, req, res, next) => {

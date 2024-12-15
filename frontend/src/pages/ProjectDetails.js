@@ -44,7 +44,7 @@ const ProjectDetails = () => {
   const handlePopupChoice = (choice) => {
     setShowPopup(false);
     if (choice === 'yes') {
-      navigate('/public-profile');
+      navigate('/projects/approvedProjectsList');
     } else {
       navigate(`/dashboard-donor/${donorId}`);
     }
