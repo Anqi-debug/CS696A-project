@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import axios from '../services/api';
+import './MilestoneProgress.css';
 
-const MilestoneProgress = ({ projectId }) => {
+const MilestoneProgress = ({ projectId, milestoneRefreshed }) => {
   const [milestones, setMilestones] = useState(null);
   const [error, setError] = useState('');
 
@@ -14,11 +15,12 @@ const MilestoneProgress = ({ projectId }) => {
         setMilestones(response.data.milestones);
       } catch (err) {
         setError('Failed to load milestones');
+        console.error('Error fetching milestones:', err);
       }
     };
 
     fetchMilestones();
-  }, [projectId]);
+  }, [projectId, milestoneRefreshed]); // Refresh when `milestoneRefreshed` changes
 
   if (error) {
     return <p style={{ color: 'red' }}>{error}</p>;

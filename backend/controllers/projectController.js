@@ -1,4 +1,5 @@
 const Project = require('../models/project');
+const User = require('../models/user');
 const mongoose = require('mongoose');
 
 // Create a new recurring fundraiser with file upload support
@@ -17,8 +18,16 @@ exports.createRecurringFundraiser = async (req, res) => {
 
     // Validate creatorId as ObjectId
     if (!mongoose.Types.ObjectId.isValid(creatorId)) {
-      return res.status(400).json({ message: 'Invalid creatorId format' });
+      return res.status(400).json({ message: 'Invalid creatorId format.' });
     }
+
+    // Fetch creatorName from the User model
+    const creator = await User.findById(creatorId);
+    if (!creator) {
+      return res.status(404).json({ message: 'Creator not found.' });
+    }
+
+    const creatorName = creator.username;
 
     // Handle uploaded files
     const portfolio = Array.isArray(req.files) ? req.files.map((file) => file.path) : [];
@@ -26,23 +35,10 @@ exports.createRecurringFundraiser = async (req, res) => {
       return res.status(400).json({ message: 'Portfolio can contain up to 5 files only.' });
     }
 
-    // Validate input fields
-    if (
-      !creatorId ||
-      !campaignName ||
-      !description ||
-      !monthlyGoal ||
-      !goalAmount ||
-      !projectTimeline ||
-      !status ||
-      !frequency
-    ) {
-      return res.status(400).json({ message: 'All fields except portfolio are required.' });
-    }
-
     // Create and save the project
     const newProject = new Project({
       creatorId,
+      creatorName,
       campaignName,
       description,
       monthlyGoal,
@@ -53,14 +49,13 @@ exports.createRecurringFundraiser = async (req, res) => {
     });
 
     const savedProject = await newProject.save();
-
     res.status(201).json({
-      message: 'Recurring fundraiser created successfully',
+      message: 'Recurring fundraiser created successfully.',
       project: savedProject,
     });
   } catch (error) {
     console.error('Error creating recurring fundraiser:', error);
-    res.status(500).json({ message: 'Error creating recurring fundraiser', error: error.message });
+    res.status(500).json({ message: 'Error creating recurring fundraiser.', error: error.message });
   }
 };
 
@@ -89,12 +84,13 @@ exports.getProjectById = async (req, res) => {
   const { projectId } = req.params;
 
   try {
-    const project = await Project.findById(projectId).populate('creatorId', 'name email');
+    const project = await Project.findById(projectId).populate('creatorId', 'username email');
     if (!project) {
       return res.status(404).json({ error: 'Project not found' });
     }
     res.status(200).json({ project });
   } catch (err) {
+    console.error('Error fetching project:', err);
     res.status(500).json({ error: err.message });
   }
 };
@@ -123,10 +119,8 @@ exports.updateProject = async (req, res) => {
     }
     if (projectTimeline) updates.projectTimeline = projectTimeline;
 
-    // Ensure at least one field is being updated
-    if (Object.keys(updates).length === 0) {
-      return res.status(400).json({ error: 'No valid fields to update.' });
-    }
+    // Ensure no attempt to update the status
+    delete updates.status;
 
     // Update the project
     const project = await Project.findByIdAndUpdate(projectId, updates, { new: true });
@@ -139,6 +133,7 @@ exports.updateProject = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
 
 
 // Delete a project by ID
@@ -181,5 +176,46 @@ exports.getProjectMilestones = async (req, res) => {
   } catch (err) {
     console.error('Error fetching milestones:', err);
     res.status(500).json({ error: 'Failed to fetch milestones' });
+  }
+};
+
+// Get all projects by a specific creator
+exports.getProjectsByCreator = async (req, res) => {
+  const { creatorId } = req.params;
+
+  try {
+    // Validate creatorId as ObjectId
+    if (!mongoose.Types.ObjectId.isValid(creatorId)) {
+      return res.status(400).json({ error: 'Invalid creator ID format.' });
+    }
+
+    const projects = await Project.find({ creatorId }).populate('creatorId', 'username email');
+    if (projects.length === 0) {
+      return res.status(404).json({ message: 'No projects found for this creator.' });
+    }
+
+    res.status(200).json({ projects });
+  } catch (err) {
+    console.error('Error fetching projects by creator:', err);
+    res.status(500).json({ error: 'Failed to fetch projects for the creator.' });
+  }
+};
+
+// Get all projects with optional sorting
+exports.getSortedProjects = async (req, res) => {
+  const { sortBy } = req.query; // Get the sort parameter from the query string
+
+  let sortOptions = {};
+  if (sortBy === 'campaignName') {
+    sortOptions.campaignName = 1; // Sort by project name (ascending)
+  } else if (sortBy === 'creatorName') {
+    sortOptions.creatorName = 1; // Sort by creator name (ascending)
+  }
+
+  try {
+    const projects = await Project.find().sort(sortOptions).populate('creatorId', 'name email');
+    res.status(200).json({ projects });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { createRecurringFundraiser } from '../services/api';
 import { useNavigate } from 'react-router-dom';
+import './CreateFundraiserForm.css';
 
 const CreateFundraiserForm = () => {
   const [formData, setFormData] = useState({
     creatorId: '',
+    creatorName: '',
     campaignName: '',
     description: '',
     monthlyGoal: '',
@@ -77,6 +79,14 @@ const CreateFundraiserForm = () => {
           name="creatorId"
           placeholder="Creator ID"
           value={formData.creatorId}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="text"
+          name="creatorName"
+          placeholder="Creator Name"
+          value={formData.creatorName}
           onChange={handleChange}
           required
         />

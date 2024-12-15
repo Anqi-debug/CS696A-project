@@ -28,4 +28,10 @@ router.delete('/:projectId', projectController.deleteProject);
 //Create a milestone
 router.get('/:projectId/milestones', projectController.getProjectMilestones);
 
+// Get all projects by a specific creator
+router.get('/:creatorId', projectController.getProjectsByCreator);
+
+// Get all projects by a specific creator
+router.get('/sortedProjects', projectController.getSortedProjects);
+
 module.exports = router;

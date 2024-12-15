@@ -1,0 +1,128 @@
+/* Main container */
+.milestone-container {
+  background: white;
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Progress sections wrapper */
+.progress-sections {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+/* Individual progress section */
+.progress-section {
+  width: 200px;
+  text-align: center;
+}
+
+/* Section headers */
+.progress-section h3 {
+  color: #1e293b;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Progress circle container */
+.progress-circle {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+/* Monthly goal specific styles */
+.monthly-goal .CircularProgressbar-path {
+  stroke: #8B5CF6 !important;
+}
+
+.monthly-goal .CircularProgressbar-text {
+  fill: #8B5CF6 !important;
+}
+
+/* Total goal specific styles */
+.total-goal .CircularProgressbar-path {
+  stroke: #10B981 !important;
+}
+
+.total-goal .CircularProgressbar-text {
+  fill: #10B981 !important;
+}
+
+/* Common progress bar styles */
+.CircularProgressbar-trail {
+  stroke: #e2e8f0 !important;
+}
+
+.CircularProgressbar-text {
+  font-weight: 600 !important;
+  font-size: 20px !important;
+}
+
+/* Amount display */
+.amount-display {
+  font-size: 16px;
+  color: #64748b;
+  margin-top: 16px;
+  padding: 8px;
+  background: #f8fafc;
+  border-radius: 8px;
+}
+
+.current-amount {
+  color: #1e293b;
+  font-weight: 600;
+}
+
+.goal-amount {
+  color: #64748b;
+}
+
+/* Loading state */
+.loading-state {
+  text-align: center;
+  padding: 40px;
+  color: #64748b;
+  font-size: 16px;
+}
+
+/* Error state */
+.error-state {
+  background-color: #fef2f2;
+  color: #dc2626;
+  padding: 16px;
+  border-radius: 12px;
+  text-align: center;
+  margin: 20px 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .milestone-container {
+    padding: 20px;
+  }
+
+  .progress-sections {
+    gap: 20px;
+  }
+
+  .progress-section {
+    width: 150px;
+  }
+
+  .progress-section h3 {
+    font-size: 16px;
+  }
+
+  .amount-display {
+    font-size: 14px;
+  }
+}

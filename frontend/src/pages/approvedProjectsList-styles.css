@@ -1,0 +1,136 @@
+/* Main container */
+.public-profile-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+/* Header styles */
+.profile-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.profile-header h2 {
+  font-size: 32px;
+  color: #8B5CF6;
+  margin-bottom: 10px;
+}
+
+/* Error message */
+.error-message {
+  background-color: #FEF2F2;
+  color: #DC2626;
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Project grid */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  padding: 0;
+  list-style: none;
+}
+
+/* Project card */
+.project-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid #e9ecef;
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+}
+
+.project-card h3 {
+  font-size: 20px;
+  color: #1F2937;
+  margin-bottom: 12px;
+}
+
+.project-info {
+  margin: 16px 0;
+  color: #6B7280;
+}
+
+.creator-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #6B7280;
+  margin-bottom: 12px;
+}
+
+.goal-amount {
+  font-size: 16px;
+  color: #059669;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+.project-description {
+  margin-top: 10px;
+  color: #4B5563; /* Neutral grey text */
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* View details button */
+.view-details-link {
+  display: inline-block;
+  background: #8B5CF6;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.view-details-link:hover {
+  background: #7C3AED;
+}
+
+/* Project completed styles */
+.project-completed {
+  background-color: #e0e0e0; /* Grey background */
+  color: #888; /* Grey text */
+  pointer-events: none; /* Disable interactions */
+  cursor: not-allowed;
+}
+
+.view-details-disabled {
+  color: #888;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .projects-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 16px;
+  }
+
+  .public-profile-container {
+    padding: 20px 16px;
+  }
+
+  .profile-header h2 {
+    font-size: 28px;
+  }
+}

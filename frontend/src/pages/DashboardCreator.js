@@ -2,17 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import './DashboardCreator.css';
 
 const DashboardCreator = () => {
-  const { id: userId } = useParams(); // Get userId from the URL
-  const navigate = useNavigate(); // Hook to navigate programmatically
+  const { id: userId } = useParams();
+  const navigate = useNavigate();
   const [notifications, setNotifications] = useState([]);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    const socket = io('http://localhost:5000'); // Connect to the WebSocket server
+    const socket = io('http://localhost:5000');
 
-    // Register the user with their ID
     if (userId) {
       console.log(`Registering user with ID: ${userId}`);
       socket.emit('register', userId);
@@ -20,7 +20,6 @@ const DashboardCreator = () => {
       console.error('User ID is undefined');
     }
 
-    // Fetch past notifications
     const fetchNotifications = async () => {
       try {
         const response = await axios.get(`/api/notifications/user/${userId}`);
@@ -33,22 +32,19 @@ const DashboardCreator = () => {
 
     fetchNotifications();
 
-    // Listen for live notifications
     socket.on('notification', (notification) => {
       console.log('Notification received:', notification);
-      setNotifications((prev) => [notification, ...prev]); // Prepend new notifications
+      setNotifications((prev) => [notification, ...prev]);
     });
 
-    // Clean up the WebSocket connection on component unmount
     return () => {
       socket.disconnect();
     };
   }, [userId]);
 
-  // Mark a notification as read and remove it from the list
   const markAsRead = async (notificationId) => {
     try {
-      await axios.patch(`/api/notifications/${notificationId}/read`); // Mark notification as read
+      await axios.patch(`/api/notifications/${notificationId}/read`);
       setNotifications((prev) => prev.filter((notif) => notif._id !== notificationId));
     } catch (err) {
       console.error('Error marking notification as read:', err);
@@ -56,43 +52,54 @@ const DashboardCreator = () => {
     }
   };
 
-  // Navigate to the "Create Fundraiser" page
   const handleNavigateToCreateFundraiser = () => {
     navigate('/projects/recurring-fundraiser');
   };
 
   return (
-    <div>
-      <div>
+    <div className="creator-dashboard">
+      <div className="dashboard-header">
         <h1>Creator Dashboard</h1>
-        <button onClick={handleNavigateToCreateFundraiser}>
+        <button 
+          className="create-fundraiser-btn"
+          onClick={handleNavigateToCreateFundraiser}
+        >
           Create a New Recurring Fundraiser
         </button>
       </div>
-      <h2>Notifications</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {notifications.length === 0 ? (
-        <p>No notifications yet.</p>
-      ) : (
-        <ul>
-          {notifications.map((notif) => (
-            <li key={notif._id} style={{ border: '1px solid #ccc', padding: '10px', marginBottom: '10px' }}>
-              <strong>{notif.message}</strong> <br />
-              <small>
-                {notif.timestamp
-                  ? new Date(notif.timestamp).toLocaleString()
-                  : 'No timestamp available'}
-              </small>
-              <button
-                onClick={() => markAsRead(notif._id)}
-                style={{ marginLeft: '10px', background: 'red', color: 'white', border: 'none', cursor: 'pointer' }}
-              >
-                Close
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
+
+      <div className="notifications-section">
+        <div className="notifications-header">
+          <h2>Notifications</h2>
+        </div>
+
+        {error && <div className="error-message">{error}</div>}
+
+        {notifications.length === 0 ? (
+          <div className="empty-notifications">No notifications yet.</div>
+        ) : (
+          <ul className="notifications-list">
+            {notifications.map((notif) => (
+              <li key={notif._id} className="notification-item">
+                <div className="notification-content">
+                  <div className="notification-message">{notif.message}</div>
+                  <div className="notification-timestamp">
+                    {notif.timestamp
+                      ? new Date(notif.timestamp).toLocaleString()
+                      : 'No timestamp available'}
+                  </div>
+                </div>
+                <button
+                  onClick={() => markAsRead(notif._id)}
+                  className="close-notification-btn"
+                >
+                  Close
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 };

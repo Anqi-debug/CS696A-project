@@ -1,0 +1,167 @@
+/* Main container */
+.project-details-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+/* Project card */
+.project-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Project header */
+.project-header {
+  padding: 32px;
+  background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);
+  color: white;
+}
+
+.project-title {
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.project-creator {
+  font-size: 18px;
+  opacity: 0.9;
+}
+
+/* Project body */
+.project-body {
+  padding: 32px;
+}
+
+/* Project info */
+.project-info {
+  display: grid;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.info-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.info-label {
+  font-size: 14px;
+  color: #6B7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.info-value {
+  font-size: 16px;
+  color: #1F2937;
+}
+
+.project-description {
+  line-height: 1.6;
+  color: #4B5563;
+  margin-bottom: 32px;
+  font-size: 16px;
+}
+
+/* Status badge */
+.status-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.status-pending {
+  background: #FEF3C7;
+  color: #D97706;
+}
+
+.status-approved {
+  background: #D1FAE5;
+  color: #059669;
+}
+
+.status-rejected {
+  background: #FEE2E2;
+  color: #DC2626;
+}
+
+/* Funds display */
+.funds-raised {
+  font-size: 24px;
+  font-weight: 600;
+  color: #059669;
+  margin-bottom: 8px;
+}
+
+.goal-amount {
+  color: #6B7280;
+  font-size: 16px;
+}
+
+/* Progress section */
+.milestone-section {
+  margin: 40px 0;
+  padding: 32px;
+  background: #F9FAFB;
+  border-radius: 16px;
+}
+
+/* Donation form section */
+.donation-section {
+  margin-top: 40px;
+  padding-top: 40px;
+  border-top: 1px solid #E5E7EB;
+}
+
+/* Messages */
+.error-message {
+  background: #FEF2F2;
+  color: #DC2626;
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  border: 1px solid #FCA5A5;
+}
+
+.success-message {
+  background: #F0FDF4;
+  color: #059669;
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  border: 1px solid #6EE7B7;
+}
+
+/* Loading state */
+.loading-state {
+  text-align: center;
+  padding: 80px 0;
+  color: #6B7280;
+  font-size: 18px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .project-header {
+    padding: 24px;
+  }
+
+  .project-title {
+    font-size: 28px;
+  }
+
+  .project-body {
+    padding: 24px;
+  }
+
+  .funds-raised {
+    font-size: 20px;
+  }
+}

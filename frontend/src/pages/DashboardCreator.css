@@ -1,0 +1,258 @@
+/* Main container */
+.creator-dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* Header section */
+.dashboard-header {
+  background: white;
+  border-radius: 20px;
+  padding: 32px;
+  margin-bottom: 32px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.dashboard-header h1 {
+  color: #1e293b;
+  font-size: 32px;
+  margin: 0;
+  font-weight: 600;
+}
+
+/* Create fundraiser button */
+.create-fundraiser-btn {
+  background: #8b5cf6;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.create-fundraiser-btn:hover {
+  background: #7c3aed;
+  transform: translateY(-2px);
+}
+
+/* Tabs container */
+.dashboard-tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Tab button styles */
+.tab-button {
+  padding: 10px 20px;
+  margin: 0 10px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  background-color: transparent;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #1e293b;
+  font-weight: 500;
+}
+
+.tab-button.active {
+  border-bottom: 2px solid #4caf50;
+  font-weight: bold;
+  color: #4caf50;
+}
+
+.tab-button:hover {
+  color: #4caf50;
+}
+
+/* Notifications section */
+.notifications-section,
+.projects-section {
+  background: white;
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Notifications header */
+.notifications-header,
+.projects-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.notifications-header h2,
+.projects-header h2 {
+  color: #1e293b;
+  font-size: 24px;
+  margin: 0;
+}
+
+/* Notifications list */
+.notifications-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.notification-item {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  transition: transform 0.2s;
+}
+
+.notification-item:hover {
+  transform: translateY(-2px);
+}
+
+.notification-content {
+  flex-grow: 1;
+}
+
+.notification-message {
+  color: #1e293b;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.notification-timestamp {
+  color: #64748b;
+  font-size: 14px;
+}
+
+/* Close notification button */
+.close-notification-btn {
+  background: #ef4444;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-left: 16px;
+}
+
+.close-notification-btn:hover {
+  background: #dc2626;
+}
+
+/* Projects list */
+.projects-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.project-item {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  border: 1px solid #e2e8f0;
+  transition: transform 0.2s;
+}
+
+.project-item:hover {
+  transform: translateY(-2px);
+}
+
+.project-item h3 {
+  color: #1e293b;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.project-item p {
+  color: #64748b;
+  font-size: 14px;
+  margin: 0 0 8px;
+}
+
+.project-item p:last-child {
+  margin-bottom: 0;
+}
+
+/* Empty state */
+.empty-notifications,
+.empty-projects {
+  text-align: center;
+  padding: 40px;
+  color: #64748b;
+  font-size: 16px;
+}
+
+/* Error message */
+.error-message {
+  background: #fef2f2;
+  color: #dc2626;
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  border: 1px solid #fca5a5;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .creator-dashboard {
+    padding: 20px;
+  }
+
+  .dashboard-header {
+    padding: 24px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dashboard-header h1 {
+    font-size: 28px;
+  }
+
+  .create-fundraiser-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .notifications-section,
+  .projects-section {
+    padding: 24px;
+  }
+
+  .dashboard-tabs {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tab-button {
+    width: 100%;
+    text-align: center;
+    margin: 5px 0;
+  }
+}

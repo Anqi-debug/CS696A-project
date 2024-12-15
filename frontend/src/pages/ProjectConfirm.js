@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getProjectById, updateProject, deleteProject } from '../services/api';
+import './ProjectConfirm.css';
 
 const ProjectConfirm = () => {
   const { id: projectId } = useParams();
@@ -29,7 +30,7 @@ const ProjectConfirm = () => {
 
   const handleUpdate = async () => {
     try {
-      const response = await updateProject(projectId, updates);
+      await updateProject(projectId, updates);
       setMessage('Project updated successfully.');
       setProject({ ...project, ...updates });
     } catch (err) {
@@ -40,9 +41,21 @@ const ProjectConfirm = () => {
   const handleDelete = async () => {
     try {
       await deleteProject(projectId);
-      navigate('/projects/recurring-fundraiser'); // Redirect to the projects list page after deletion
+      if (project?.creatorId?._id) {
+        navigate(`/dashboard-creator/${project.creatorId._id}`); // Use the `_id` field of `creatorId`
+      } else {
+        alert('Creator ID is missing.');
+      }
     } catch (err) {
       setError('Failed to delete project.');
+    }
+  };
+
+  const handleComeBack = () => {
+    if (project?.creatorId?._id) {
+      navigate(`/dashboard-creator/${project.creatorId._id}`); // Use the `_id` field of `creatorId`
+    } else {
+      alert('Creator ID is missing.');
     }
   };
 
@@ -54,8 +67,9 @@ const ProjectConfirm = () => {
       {project ? (
         <div>
           <h2>{project.campaignName}</h2>
-          <p>Creator: {project.creatorId?.name || 'Unknown'}</p>
+          <p>Creator: {project.creatorId?.username || 'Unknown'}</p>
           <p>Description: {project.description}</p>
+          <p>Monthly Goal: ${project.monthlyGoal || 0}</p>
           <p>Goal Amount: ${project.goalAmount}</p>
           <p>Status: {project.status}</p>
           <p>Funds Raised: ${project.fundsRaised || 0}</p>
@@ -76,20 +90,18 @@ const ProjectConfirm = () => {
           />
           <input
             type="number"
+            name="monthlyGoal"
+            placeholder="Monthly Goal"
+            defaultValue={project.monthlyGoal}
+            onChange={handleChange}
+          />
+          <input
+            type="number"
             name="goalAmount"
             placeholder="Goal Amount"
             defaultValue={project.goalAmount}
             onChange={handleChange}
           />
-          <select
-            name="status"
-            defaultValue={project.status}
-            onChange={handleChange}
-          >
-            <option value="Pending">Pending</option>
-            <option value="Approved">Approved</option>
-            <option value="Rejected">Rejected</option>
-          </select>
           <button onClick={handleUpdate}>Update Project</button>
 
           <h3>Delete Project</h3>
@@ -98,6 +110,22 @@ const ProjectConfirm = () => {
             onClick={handleDelete}
           >
             Delete Project
+          </button>
+
+          <h3>Navigation</h3>
+          <button
+            style={{
+              marginTop: '20px',
+              backgroundColor: '#4CAF50',
+              color: 'white',
+              padding: '10px 20px',
+              border: 'none',
+              borderRadius: '5px',
+              cursor: 'pointer',
+            }}
+            onClick={handleComeBack}
+          >
+            Come Back
           </button>
         </div>
       ) : (

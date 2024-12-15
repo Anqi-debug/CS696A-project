@@ -16,6 +16,7 @@ const promotionSchema = new Schema({
 // Define Project Schema
 const projectSchema = new Schema({
   creatorId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
+  creatorName: { type: String, required: true },
   campaignName: { type: String, required: true },
   description: { type: String, required: true },
   monthlyGoal: { type: Number },

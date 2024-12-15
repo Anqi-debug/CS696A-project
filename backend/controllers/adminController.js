@@ -6,11 +6,25 @@ exports.getPendingFundraisers = async (req, res) => {
   try {
     const fundraisers = await Project.find({ status: 'Pending' })
       .populate('creatorId', 'name portfolioItems') // Fetch creator's name and portfolio
-      .select('campaignName description goalAmount portfolio status');
+      .select('campaignName description goalAmount creatorName status');
 
     res.status(200).json({ fundraisers });
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch pending fundraisers' });
+  }
+};
+
+// List all projects regardless of status
+exports.getAllProjects = async (req, res) => {
+  try {
+    const projects = await Project.find()
+      .populate('creatorId', 'username email') // Fetch creator details
+      .select('campaignName description goalAmount creatorName status fundsRaised');
+
+    res.status(200).json({ projects });
+  } catch (error) {
+    console.error('Error fetching all projects:', error);
+    res.status(500).json({ error: 'Failed to fetch all projects' });
   }
 };
 
