@@ -1,33 +1,78 @@
-/* Main dashboard container */
+/* Main dashboard container with gradient background */
 .dashboard-admin {
   max-width: 1200px;
   margin: 0 auto;
   padding: 30px 20px;
-  background: #f8fafc;
   min-height: 100vh;
+  background: linear-gradient(135deg, #9F7AEA 0%, #E9D8FD 100%);
 }
 
 /* Header styles */
 .dashboard-admin h1 {
-  color: #1e293b;
-  font-size: 32px;
+  color: black;
+  font-size: 36px;
   margin-bottom: 30px;
-  padding-bottom: 15px;
-  border-bottom: 2px solid #e2e8f0;
+  padding: 24px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  text-align: center;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Tab Navigation */
+.tab-navigation {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.tab-button {
+  padding: 12px 24px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  color: BLUE;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+  letter-spacing: 0.5px;
+}
+
+.tab-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.tab-button.active {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Fundraisers section */
 .fundraisers-list {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   padding: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .fundraisers-list h2 {
-  color: #334155;
-  font-size: 24px;
+  color: brown;
+  font-size: 26px;
   margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 /* Table styles */
@@ -39,88 +84,106 @@ table {
 }
 
 thead {
-  background: #f8fafc;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 th {
   text-align: left;
   padding: 16px;
-  color: #64748b;
+  color: blue;
   font-weight: 600;
-  border-bottom: 2px solid #e2e8f0;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
   white-space: nowrap;
+  letter-spacing: 0.5px;
+  font-size: 15px;
 }
 
 td {
   padding: 16px;
-  border-bottom: 1px solid #e2e8f0;
-  color: #334155;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: black;
+  font-size: 14px;
+  letter-spacing: 0.3px;
 }
 
 tr:hover {
-  background-color: #f8fafc;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
 }
 
-/* Description column specific */
+/* Description column */
 td:nth-child(3) {
   max-width: 300px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: rgba(255, 255, 255, 0.9);
 }
 
-/* Amount column */
-td:nth-child(4) {
+/* Amount columns - Goal Amount and Funds Raised */
+td:nth-child(4),
+td:nth-child(5) {
   font-family: monospace;
   font-weight: 600;
-  color: #047857;
+  color: #4ADE80;
+  font-size: 15px;
 }
 
-/* Button styles */
-button {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 6px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-  margin-right: 8px;
+/* Status column */
+td:nth-child(6) {
+  font-weight: 600;
+  color: black;
 }
 
-button:first-child {
-  background: #8B5CF6;
-  color: white;
+/* Status badge styles */
+.status-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  letter-spacing: 0.5px;
 }
 
-button:first-child:hover {
-  background: #7C3AED;
+.status-approved {
+  background: rgba(74, 222, 128, 0.2);
+  color: #ffffff;
 }
 
-button:last-child {
-  background: #EF4444;
-  color: white;
+.status-pending {
+  background: rgba(250, 204, 21, 0.2);
+  color: #ffffff;
 }
 
-button:last-child:hover {
-  background: #DC2626;
+.status-rejected {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ffffff;
 }
 
 /* Empty state */
 .fundraisers-list p {
   text-align: center;
-  color: #64748b;
+  color: #ffffff;
   padding: 40px 0;
   font-size: 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  margin: 20px 0;
+  letter-spacing: 0.3px;
 }
 
 /* Error message */
 .error {
-  background-color: #fef2f2;
-  border: 1px solid #fecaca;
-  color: #dc2626;
-  padding: 12px 16px;
-  border-radius: 8px;
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #ffffff;
+  padding: 16px 20px;
+  border-radius: 12px;
   margin-bottom: 20px;
+  text-align: center;
+  letter-spacing: 0.3px;
 }
 
 /* Responsive adjustments */
@@ -138,41 +201,8 @@ button:last-child:hover {
   td:nth-child(3) {
     max-width: 200px;
   }
-}
 
-/* Loading state */
-.loading {
-  text-align: center;
-  padding: 40px 0;
-  color: #64748b;
-}
-
-/* Status badges */
-.status-badge {
-  display: inline-block;
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-/* Tooltip for truncated content */
-td:nth-child(3):hover {
-  position: relative;
-}
-
-td:nth-child(3):hover::after {
-  content: attr(data-full-text);
-  position: absolute;
-  left: 0;
-  top: 100%;
-  background: #334155;
-  color: white;
-  padding: 8px 12px;
-  border-radius: 6px;
-  font-size: 14px;
-  max-width: 300px;
-  white-space: normal;
-  z-index: 1;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  .fundraisers-list h2 {
+    font-size: 22px;
+  }
 }

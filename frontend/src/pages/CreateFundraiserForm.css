@@ -1,133 +1,201 @@
-/* Main container */
+/* Main container with lighter gradient background */
 .fundraiser-create-container {
   max-width: 800px;
   margin: 40px auto;
-  padding: 30px;
-  background: white;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.15);
   border-radius: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+body {
+  background: linear-gradient(135deg, #9F7AEA 0%, #E9D8FD 100%);
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
 }
 
 /* Header */
 .fundraiser-create-container h2 {
-  color: #8B5CF6;
-  font-size: 28px;
+  color: #ffffff;
+  font-size: 32px;
   margin-bottom: 30px;
   text-align: center;
-  padding-bottom: 15px;
-  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 20px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Form styling */
 form {
   display: grid;
-  gap: 20px;
+  gap: 24px;
 }
 
-/* Input fields */
+/* Input fields with lighter glass effect */
 input[type="text"],
 input[type="number"],
 textarea,
 select {
   width: 100%;
-  padding: 12px 16px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
   font-size: 16px;
-  transition: border-color 0.3s, box-shadow 0.3s;
-  background: #f8fafc;
+  color: #2D3748;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
 }
 
 textarea {
   min-height: 120px;
   resize: vertical;
+  line-height: 1.6;
 }
 
 input:focus,
 textarea:focus,
 select:focus {
   outline: none;
-  border-color: #8B5CF6;
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+  border-color: #9F7AEA;
+  box-shadow: 0 0 0 3px rgba(159, 122, 234, 0.2);
+  background: rgba(255, 255, 255, 0.3);
 }
 
 /* File upload styling */
 .file-upload-label {
   display: block;
-  margin-bottom: 8px;
-  color: #4b5563;
+  margin-bottom: 10px;
+  color: #4A5568;
   font-weight: 500;
+  font-size: 15px;
 }
 
 input[type="file"] {
   width: 100%;
-  padding: 10px;
-  border: 2px dashed #e2e8f0;
-  border-radius: 8px;
-  background: #f8fafc;
+  padding: 20px;
+  border: 2px dashed rgba(159, 122, 234, 0.4);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.2);
   cursor: pointer;
+  color: #4A5568;
+  transition: all 0.3s ease;
 }
 
 input[type="file"]:hover {
-  border-color: #8B5CF6;
+  border-color: #9F7AEA;
+  background: rgba(255, 255, 255, 0.3);
 }
 
 /* Select dropdown */
 select {
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%236B7280' viewBox='0 0 16 16'%3E%3Cpath d='M8 10.5l-4-4h8l-4 4z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%234A5568' viewBox='0 0 16 16'%3E%3Cpath d='M8 10.5l-4-4h8l-4 4z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 12px center;
   padding-right: 40px;
 }
 
+select option {
+  background: white;
+  color: #2D3748;
+}
+
 /* Submit button */
 button[type="submit"] {
-  background: #8B5CF6;
+  background: linear-gradient(135deg, #9F7AEA 0%, #B794F4 100%);
   color: white;
-  padding: 12px 24px;
+  padding: 16px 28px;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
   width: 100%;
   margin-top: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(159, 122, 234, 0.3);
 }
 
 button[type="submit"]:hover {
-  background: #7C3AED;
+  background: linear-gradient(135deg, #805AD5 0%, #9F7AEA 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(159, 122, 234, 0.4);
 }
 
 /* Messages */
 .success-message {
-  background-color: #f0fdf4;
-  border: 1px solid #6ee7b7;
-  color: #059669;
-  padding: 12px 16px;
-  border-radius: 8px;
+  background: rgba(72, 187, 120, 0.2);
+  border: 1px solid rgba(72, 187, 120, 0.3);
+  color: #2F855A;
+  padding: 16px 20px;
+  border-radius: 12px;
   margin-bottom: 20px;
+  backdrop-filter: blur(5px);
 }
 
 .error-message {
-  background-color: #fef2f2;
-  border: 1px solid #fca5a5;
-  color: #dc2626;
-  padding: 12px 16px;
-  border-radius: 8px;
+  background: rgba(245, 101, 101, 0.2);
+  border: 1px solid rgba(245, 101, 101, 0.3);
+  color: #C53030;
+  padding: 16px 20px;
+  border-radius: 12px;
   margin-bottom: 20px;
+  backdrop-filter: blur(5px);
+}
+
+/* Field groups */
+.form-group {
+  display: grid;
+  gap: 10px;
+}
+
+.form-group label {
+  color: #4A5568;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+/* File preview area */
+.file-preview {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.file-preview-item {
+  background: rgba(255, 255, 255, 0.3);
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #4A5568;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  backdrop-filter: blur(5px);
+}
+
+/* Input placeholders */
+::placeholder {
+  color: #718096;
+  opacity: 0.7;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .fundraiser-create-container {
     margin: 20px;
-    padding: 20px;
+    padding: 24px;
   }
 
   h2 {
-    font-size: 24px;
+    font-size: 26px;
   }
 
   input[type="text"],
@@ -135,43 +203,11 @@ button[type="submit"]:hover {
   textarea,
   select,
   button[type="submit"] {
-    padding: 10px 14px;
-    font-size: 14px;
+    padding: 12px 16px;
+    font-size: 15px;
   }
-}
 
-/* Field groups */
-.form-group {
-  display: grid;
-  gap: 8px;
-}
-
-.form-group label {
-  color: #4b5563;
-  font-weight: 500;
-  font-size: 14px;
-}
-
-/* File preview area */
-.file-preview {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 10px;
-}
-
-.file-preview-item {
-  background: #f8fafc;
-  padding: 8px 12px;
-  border-radius: 6px;
-  font-size: 14px;
-  color: #4b5563;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-/* Input placeholders */
-::placeholder {
-  color: #9ca3af;
+  input[type="file"] {
+    padding: 16px;
+  }
 }
