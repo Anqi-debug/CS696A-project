@@ -1,110 +1,90 @@
-/* Main container */
+/* Main container with gradient background */
 .creator-dashboard {
   max-width: 1200px;
   margin: 0 auto;
   padding: 40px 20px;
+  background: linear-gradient(135deg, #6B46C1 0%, #D53F8C 100%);
+  min-height: 100vh;
 }
 
-/* Header section */
+/* Header section with glass effect */
 .dashboard-header {
-  background: white;
+  background: rgba(31, 41, 55, 0.7);
   border-radius: 20px;
   padding: 32px;
   margin-bottom: 32px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   gap: 20px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .dashboard-header h1 {
-  color: #1e293b;
-  font-size: 32px;
+  color: #ffffff;
+  font-size: 36px;
   margin: 0;
-  font-weight: 600;
+  font-weight: 700;
+  background: linear-gradient(45deg, #A78BFA, #F0ABFC);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* Create fundraiser button */
 .create-fundraiser-btn {
-  background: #8b5cf6;
+  background: linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%);
   color: white;
-  padding: 12px 24px;
+  padding: 14px 28px;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   gap: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
 }
 
 .create-fundraiser-btn:hover {
-  background: #7c3aed;
   transform: translateY(-2px);
-}
-
-/* Tabs container */
-.dashboard-tabs {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-  background: #f8fafc;
-  border-radius: 10px;
-  padding: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-/* Tab button styles */
-.tab-button {
-  padding: 10px 20px;
-  margin: 0 10px;
-  border: none;
-  border-bottom: 2px solid transparent;
-  background-color: transparent;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.2s;
-  color: #1e293b;
-  font-weight: 500;
-}
-
-.tab-button.active {
-  border-bottom: 2px solid #4caf50;
-  font-weight: bold;
-  color: #4caf50;
-}
-
-.tab-button:hover {
-  color: #4caf50;
+  background: linear-gradient(135deg, #7C3AED 0%, #5551E5 100%);
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
 }
 
 /* Notifications section */
-.notifications-section,
-.projects-section {
-  background: white;
+.notifications-section {
+  background: rgba(31, 41, 55, 0.7);
   border-radius: 20px;
   padding: 32px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
 /* Notifications header */
-.notifications-header,
-.projects-header {
+.notifications-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
 }
 
-.notifications-header h2,
-.projects-header h2 {
-  color: #1e293b;
-  font-size: 24px;
+.notifications-header h2 {
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: 700;
   margin: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* Notifications list */
@@ -112,22 +92,26 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  display: grid;
+  gap: 16px;
 }
 
 .notification-item {
-  background: #f8fafc;
+  background: rgba(31, 41, 55, 0.6);
   border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 16px;
-  border: 1px solid #e2e8f0;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  transition: transform 0.2s;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
 }
 
 .notification-item:hover {
   transform: translateY(-2px);
+  background: rgba(31, 41, 55, 0.8);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .notification-content {
@@ -135,88 +119,84 @@
 }
 
 .notification-message {
-  color: #1e293b;
+  color: #ffffff;
   font-size: 16px;
   font-weight: 500;
   margin-bottom: 8px;
+  line-height: 1.5;
 }
 
 .notification-timestamp {
-  color: #64748b;
+  color: #cbd5e1;
   font-size: 14px;
+  padding: 4px 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  display: inline-block;
 }
 
 /* Close notification button */
 .close-notification-btn {
-  background: #ef4444;
+  background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
   color: white;
-  padding: 8px 16px;
+  padding: 10px 20px;
   border: none;
   border-radius: 8px;
   font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.3s ease;
   margin-left: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.2);
 }
 
 .close-notification-btn:hover {
-  background: #dc2626;
-}
-
-/* Projects list */
-.projects-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.project-item {
-  background: #f8fafc;
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 16px;
-  border: 1px solid #e2e8f0;
-  transition: transform 0.2s;
-}
-
-.project-item:hover {
+  background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%);
   transform: translateY(-2px);
-}
-
-.project-item h3 {
-  color: #1e293b;
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-
-.project-item p {
-  color: #64748b;
-  font-size: 14px;
-  margin: 0 0 8px;
-}
-
-.project-item p:last-child {
-  margin-bottom: 0;
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
 }
 
 /* Empty state */
-.empty-notifications,
-.empty-projects {
+.empty-notifications {
   text-align: center;
-  padding: 40px;
-  color: #64748b;
-  font-size: 16px;
+  padding: 48px;
+  color: #cbd5e1;
+  font-size: 18px;
+  background: rgba(31, 41, 55, 0.6);
+  border-radius: 16px;
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
 }
 
 /* Error message */
 .error-message {
-  background: #fef2f2;
-  color: #dc2626;
-  padding: 16px;
+  background: rgba(153, 27, 27, 0.7);
+  color: #fecaca;
+  padding: 20px;
   border-radius: 12px;
   margin-bottom: 24px;
-  border: 1px solid #fca5a5;
+  text-align: center;
+  border: 1px solid rgba(254, 202, 202, 0.2);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.notification-item {
+  animation: fadeIn 0.3s ease-out;
 }
 
 /* Responsive adjustments */
@@ -233,6 +213,7 @@
 
   .dashboard-header h1 {
     font-size: 28px;
+    margin-bottom: 16px;
   }
 
   .create-fundraiser-btn {
@@ -240,19 +221,17 @@
     justify-content: center;
   }
 
-  .notifications-section,
-  .projects-section {
+  .notifications-section {
     padding: 24px;
   }
 
-  .dashboard-tabs {
+  .notification-item {
     flex-direction: column;
-    align-items: center;
+    gap: 16px;
   }
 
-  .tab-button {
+  .close-notification-btn {
     width: 100%;
-    text-align: center;
-    margin: 5px 0;
+    margin-left: 0;
   }
 }

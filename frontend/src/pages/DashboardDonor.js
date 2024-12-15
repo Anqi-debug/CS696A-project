@@ -6,7 +6,7 @@ import './DashboardDonor.css';
 const DashboardDonor = () => {
   const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
-  const [sortOption, setSortOption] = useState(''); // State for the selected sort option
+  const [sortOption, setSortOption] = useState('');
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -23,10 +23,10 @@ const DashboardDonor = () => {
     };
 
     fetchProjects();
-  }, [sortOption]); // Refetch projects when sortOption changes
+  }, [sortOption]);
 
   const handleSortChange = (e) => {
-    setSortOption(e.target.value); // Update sort option state
+    setSortOption(e.target.value);
   };
 
   const renderProjectsList = () => (
@@ -79,36 +79,20 @@ const DashboardDonor = () => {
         </button>
       </div>
 
-      <div className="welcome-section">
-        <p className="welcome-message">
-          Welcome to your dashboard. Here you can manage your donations and track progress.
-        </p>
-        
-        <div className="dashboard-grid">
-          <div className="dashboard-card">
-            <h3 className="card-title">Recent Donations</h3>
-            <div className="card-content">
-              Track your recent contribution history
-            </div>
-          </div>
-
-          <div className="dashboard-card">
-            <h3 className="card-title">Impact Summary</h3>
-            <div className="card-content">
-              See how your donations are making a difference
-            </div>
-          </div>
-
-          <div className="dashboard-card">
-            <h3 className="card-title">Favorite Projects</h3>
-            <div className="card-content">
-              Quick access to projects you support
-            </div>
+      <div className="dashboard-grid">
+        <div className="dashboard-card">
+          <h3 className="card-title">Recent Donations</h3>
+          <div className="card-content">
+            Track your recent contribution history
           </div>
         </div>
+
+        
       </div>
 
-      <div className="projects-section-container">{renderProjectsList()}</div>
+      <div className="projects-section-container">
+        {renderProjectsList()}
+      </div>
     </div>
   );
 };
