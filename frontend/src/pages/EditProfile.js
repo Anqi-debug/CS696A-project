@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from '../services/api';
-//import './EditProfile.css';
 
 const EditProfile = () => {
   const { userId } = useParams(); // Get userId from the URL params
@@ -11,17 +10,18 @@ const EditProfile = () => {
     portfolioItems: [],
     socialMediaLinks: '',
   });
+  const [role, setRole] = useState(''); // Track user role
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        console.log('User ID:', userId);
-        const response = await axios.get(`/users/${userId}/portfolio`);
-        console.log('User ID:', userId);
-        const { bio, portfolioItems, socialMediaLinks } = response.data.user;
+        const response = await axios.get(`/users/${userId}/info`);
+        const { bio, portfolioItems, socialMediaLinks, role } = response.data.user;
+
         setProfile({ bio, portfolioItems, socialMediaLinks });
+        setRole(role);
       } catch (err) {
         setError(err.response?.data?.error || 'Failed to fetch profile data.');
       }
@@ -63,7 +63,7 @@ const EditProfile = () => {
   };
 
   const handleBackToDashboard = () => {
-    navigate(`/dashboard-creator/${userId}`);
+    navigate(role === 'creator' ? `/dashboard-creator/${userId}` : `/dashboard-donor/${userId}`);
   };
 
   return (
@@ -85,33 +85,36 @@ const EditProfile = () => {
           />
         </div>
 
-        <div className="form-group">
-          <label>Portfolio Items</label>
-          {profile.portfolioItems.map((item, index) => (
-            <div key={index} className="portfolio-item">
-              <input
-                type="text"
-                value={item}
-                onChange={(e) => handlePortfolioChange(index, e.target.value)}
-                placeholder={`Portfolio item ${index + 1}`}
-              />
-              <button
-                type="button"
-                onClick={() => removePortfolioItem(index)}
-                className="remove-item-btn"
-              >
-                Remove
-              </button>
-            </div>
-          ))}
-          <button
-            type="button"
-            onClick={addPortfolioItem}
-            className="add-item-btn"
-          >
-            Add Portfolio Item
-          </button>
-        </div>
+        {/* Show portfolio items only if the user is a creator */}
+        {role === 'creator' && (
+          <div className="form-group">
+            <label>Portfolio Items</label>
+            {profile.portfolioItems.map((item, index) => (
+              <div key={index} className="portfolio-item">
+                <input
+                  type="text"
+                  value={item}
+                  onChange={(e) => handlePortfolioChange(index, e.target.value)}
+                  placeholder={`Portfolio item ${index + 1}`}
+                />
+                <button
+                  type="button"
+                  onClick={() => removePortfolioItem(index)}
+                  className="remove-item-btn"
+                >
+                  Remove
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={addPortfolioItem}
+              className="add-item-btn"
+            >
+              Add Portfolio Item
+            </button>
+          </div>
+        )}
 
         <div className="form-group">
           <label htmlFor="socialMediaLinks">Social Media Links</label>

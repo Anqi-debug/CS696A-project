@@ -7,6 +7,7 @@ const Joi = require('joi');
 const http = require('http');
 const socketIO = require('socket.io');
 const dotenv = require('dotenv');
+const path = require('path');
 
 dotenv.config();
 
@@ -80,6 +81,8 @@ app.use('/api/milestones', milestoneRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/metrics', metricsRoutes);
 app.use('/api/notifications', notificationRoutes);
+// Serve static files from the 'uploads' directory
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Socket.IO Integration
 const server = http.createServer(app);

@@ -15,6 +15,7 @@ import CreatorProjectsList from './pages/ProjectsByCreator';
 import HomePage from './pages/HomePage';
 import DonorProjects from './pages/DonorProjects';
 import EditProfile from './pages/EditProfile';
+import UserInfo from './pages/UserInfo';
 
 const App = () => {
   return (
@@ -43,7 +44,9 @@ const App = () => {
         {/* Payment Routes */}
         <Route path="/donations/stripe" element={<StripeDonationForm />} />
         <Route path="/donations/donor/:donorId/projects" element={<DonorProjects />} />
+        {/* User Routes */}
         <Route path="/users/:userId/portfolio" element={<EditProfile />} />
+        <Route path="/users/:userId/info" element={<UserInfo />} />
       </Routes>
     </Router>
   );

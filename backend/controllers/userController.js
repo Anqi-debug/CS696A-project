@@ -131,43 +131,57 @@ exports.changePassword = async (req, res) => {
   }
 };
 
-// Update creator portfolio
+// Update user portfolio
 exports.updatePortfolio = async (req, res) => {
-  const { userId } = req.params;
-  const { bio, portfolioItems, socialMediaLinks } = req.body;
-
-  try {
-    const user = await User.findById(userId);
-    if (!user) return res.status(404).json({ error: 'User not found' });
-    if (user.role !== 'creator') return res.status(403).json({ error: 'Only creators can update portfolios' });
-
-    user.bio = bio || user.bio;
-    user.portfolioItems = portfolioItems || user.portfolioItems;
-    user.socialMediaLinks = socialMediaLinks || user.socialMediaLinks;
-    user.updatedAt = Date.now();
-
-    await user.save();
-    res.status(200).json({ message: 'Portfolio updated successfully', user });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-// Fetch creator portfolio
-exports.getPortfolio = async (req, res) => {
+    const { userId } = req.params;
+    const { bio, portfolioItems, socialMediaLinks } = req.body;
+  
+    try {
+      const user = await User.findById(userId);
+      if (!user) return res.status(404).json({ error: 'User not found' });
+  
+      // Allow only specific updates based on user role
+      if (user.role === 'creator') {
+        user.bio = bio || user.bio;
+        user.portfolioItems = portfolioItems || user.portfolioItems;
+        user.socialMediaLinks = socialMediaLinks || user.socialMediaLinks;
+      } else if (user.role === 'donor') {
+        user.bio = bio || user.bio;
+        user.socialMediaLinks = socialMediaLinks || user.socialMediaLinks;
+      } else {
+        return res.status(403).json({ error: 'Access denied' });
+      }
+  
+      user.updatedAt = Date.now();
+  
+      await user.save();
+      res.status(200).json({ message: 'Portfolio updated successfully', user });
+    } catch (err) {
+      console.error('Error updating portfolio:', err);
+      res.status(500).json({ error: err.message });
+    }
+  };
+  
+  // Get user portfolio
+  exports.getUserPortfolio = async (req, res) => {
     const { userId } = req.params;
   
     try {
       const user = await User.findById(userId);
       if (!user) return res.status(404).json({ error: 'User not found' });
-      if (user.role !== 'creator') return res.status(403).json({ error: 'Only creators can view portfolios' });
   
-      res.status(200).json({ user });
+      // Allow only "creator" and "donor" roles
+      if (user.role !== 'creator' && user.role !== 'donor') {
+        return res.status(403).json({ error: 'Access denied' });
+      }
+  
+      const { bio, portfolioItems, socialMediaLinks, role } = user;
+      res.status(200).json({ user: { bio, portfolioItems, socialMediaLinks, role } });
     } catch (err) {
-      res.status(500).json({ error: err.message });
+      console.error('Error fetching user portfolio:', err);
+      res.status(500).json({ error: 'Internal server error' });
     }
   };
-  
 
 // Create a new user
 exports.createUser = async (req, res) => {

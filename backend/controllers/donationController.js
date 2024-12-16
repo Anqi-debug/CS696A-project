@@ -38,10 +38,11 @@ exports.processStripePayment = async (req, res) => {
     await donation.save();
 
     project.fundsRaised += amount;
+    project.totalRaised += amount;
 
     // Check if fundsRaised exceeds monthlyGoal
     if (project.fundsRaised >= project.monthlyGoal) {
-      project.totalRaised += project.fundsRaised;
+      //project.totalRaised += project.fundsRaised;
       project.fundsRaised = 0; // Reset fundsRaised for the next term
 
       const notification = new Notification({
@@ -51,7 +52,7 @@ exports.processStripePayment = async (req, res) => {
       await notification.save();
       project.term += 1;
 
-      // Send the notification via WebSocket if configured
+      // Send the notification via WebSocket
       const io = req.app.get('socketio');
       if (io) {
         io.to(project.creatorId.toString()).emit('notification', notification);
@@ -66,7 +67,7 @@ exports.processStripePayment = async (req, res) => {
       });
       await notification.save();
 
-      // Send the notification via WebSocket if configured
+      // Send the notification via WebSocket
       const io = req.app.get('socketio');
       if (io) {
         io.to(project.creatorId.toString()).emit('notification', notification);

@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const projectController = require('../controllers/projectController');
+const { uploadPortfolio } = require('../middleware/upload');
 const upload = require('../middleware/upload'); // Import multer configuration
 
 // Create a new project with file upload
 router.post(
   '/recurring-fundraiser',
-  upload.array('portfolio', 5), // Accept up to 5 files under the 'portfolio' field
+  uploadPortfolio, // Accept up to 5 files under the 'portfolio' field
   projectController.createRecurringFundraiser
 );
 

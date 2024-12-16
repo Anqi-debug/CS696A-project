@@ -29,8 +29,11 @@ exports.createRecurringFundraiser = async (req, res) => {
 
     const creatorName = creator.username;
 
-    // Handle uploaded files
-    const portfolio = Array.isArray(req.files) ? req.files.map((file) => file.path) : [];
+    // Handle uploaded files (convert to relative URLs for serving)
+    const portfolio = Array.isArray(req.files)
+      ? req.files.map((file) => `/uploads/${file.filename}`)
+      : [];
+
     if (portfolio.length > 5) {
       return res.status(400).json({ message: 'Portfolio can contain up to 5 files only.' });
     }
