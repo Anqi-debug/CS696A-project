@@ -8,6 +8,7 @@ const DashboardCreator = () => {
   const { id: userId } = useParams();
   const navigate = useNavigate();
   const [notifications, setNotifications] = useState([]);
+  const [activeTab, setActiveTab] = useState('notifications');
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -56,48 +57,83 @@ const DashboardCreator = () => {
     navigate('/projects/recurring-fundraiser');
   };
 
+  const handleNavigateToProjects = () => {
+    navigate(`/projects/creator/${userId}`);
+  };
+
+  const handleNavigateToEditProfile = () => {
+    navigate(`/users/${userId}/portfolio`);
+  };
+
   return (
     <div className="creator-dashboard">
       <div className="dashboard-header">
         <h1>Creator Dashboard</h1>
-        <button 
-          className="create-fundraiser-btn"
-          onClick={handleNavigateToCreateFundraiser}
+        <div className="header-actions">
+          <button
+            className="create-fundraiser-btn"
+            onClick={handleNavigateToCreateFundraiser}
+          >
+            Create a New Recurring Fundraiser
+          </button>
+          <button
+            className="edit-profile-btn"
+            onClick={handleNavigateToEditProfile}
+          >
+            Profile Edit
+          </button>
+        </div>
+      </div>
+
+      <div className="dashboard-tabs">
+        <button
+          className={`tab-button ${activeTab === 'notifications' ? 'active' : ''}`}
+          onClick={() => setActiveTab('notifications')}
         >
-          Create a New Recurring Fundraiser
+          Notifications
+        </button>
+        <button
+          className={`tab-button ${activeTab === 'projects' ? 'active' : ''}`}
+          onClick={handleNavigateToProjects}
+        >
+          Your Projects
         </button>
       </div>
 
-      <div className="notifications-section">
-        <div className="notifications-header">
-          <h2>Notifications</h2>
-        </div>
+      <div className="tab-content">
+        {activeTab === 'notifications' && (
+          <div className="notifications-section">
+            <div className="notifications-header">
+              <h2>Notifications</h2>
+            </div>
 
-        {error && <div className="error-message">{error}</div>}
+            {error && <div className="error-message">{error}</div>}
 
-        {notifications.length === 0 ? (
-          <div className="empty-notifications">No notifications yet.</div>
-        ) : (
-          <ul className="notifications-list">
-            {notifications.map((notif) => (
-              <li key={notif._id} className="notification-item">
-                <div className="notification-content">
-                  <div className="notification-message">{notif.message}</div>
-                  <div className="notification-timestamp">
-                    {notif.timestamp
-                      ? new Date(notif.timestamp).toLocaleString()
-                      : 'No timestamp available'}
-                  </div>
-                </div>
-                <button
-                  onClick={() => markAsRead(notif._id)}
-                  className="close-notification-btn"
-                >
-                  Close
-                </button>
-              </li>
-            ))}
-          </ul>
+            {notifications.length === 0 ? (
+              <div className="empty-notifications">No notifications yet.</div>
+            ) : (
+              <ul className="notifications-list">
+                {notifications.map((notif) => (
+                  <li key={notif._id} className="notification-item">
+                    <div className="notification-content">
+                      <div className="notification-message">{notif.message}</div>
+                      <div className="notification-timestamp">
+                        {notif.timestamp
+                          ? new Date(notif.timestamp).toLocaleString()
+                          : 'No timestamp available'}
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => markAsRead(notif._id)}
+                      className="close-notification-btn"
+                    >
+                      Close
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         )}
       </div>
     </div>

@@ -155,17 +155,19 @@ exports.updatePortfolio = async (req, res) => {
 
 // Fetch creator portfolio
 exports.getPortfolio = async (req, res) => {
-  const { userId } = req.params;
-
-  try {
-    const user = await User.findById(userId).select('name bio portfolioItems socialMediaLinks createdProjects');
-    if (!user) return res.status(404).json({ error: 'User not found' });
-
-    res.status(200).json({ user });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
+    const { userId } = req.params;
+  
+    try {
+      const user = await User.findById(userId);
+      if (!user) return res.status(404).json({ error: 'User not found' });
+      if (user.role !== 'creator') return res.status(403).json({ error: 'Only creators can view portfolios' });
+  
+      res.status(200).json({ user });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  };
+  
 
 // Create a new user
 exports.createUser = async (req, res) => {

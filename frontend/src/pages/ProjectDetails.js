@@ -50,7 +50,16 @@ const ProjectDetails = () => {
     }
   };
 
+  const handleCancelDonation = () => {
+    navigate(`/dashboard-donor/${donorId}`);
+  };
+
   const isFundingComplete = project?.totalRaised >= project?.goalAmount;
+
+  const isImageFile = (url) => {
+    const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp'];
+    return imageExtensions.some((ext) => url.toLowerCase().endsWith(ext));
+  };
 
   return (
     <div className="project-details-container">
@@ -80,6 +89,30 @@ const ProjectDetails = () => {
               </div>
             </div>
 
+            {/* Portfolio Section */}
+            {project.portfolio?.length > 0 && (
+              <div className="portfolio-section">
+                <h3>Portfolio</h3>
+                <ul className="portfolio-list">
+                  {project.portfolio.map((item, index) => (
+                    <li key={index} className="portfolio-item">
+                      {isImageFile(item) ? (
+                        <img
+                          src={item}
+                          alt={`Portfolio item ${index + 1}`}
+                          className="portfolio-image"
+                        />
+                      ) : (
+                        <a href={item} target="_blank" rel="noopener noreferrer">
+                          {item}
+                        </a>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
             {!isFundingComplete && (
               <div className="donation-section">
                 <Elements stripe={stripePromise}>
@@ -98,6 +131,16 @@ const ProjectDetails = () => {
                 milestoneRefreshed={milestoneRefreshed}
               />
             </div>
+          </div>
+
+          {/* Cancel Donation Button */}
+          <div className="cancel-donation-section">
+            <button
+              className="cancel-donation-button"
+              onClick={handleCancelDonation}
+            >
+              Cancel Donation
+            </button>
           </div>
         </div>
       ) : (

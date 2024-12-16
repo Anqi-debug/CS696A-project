@@ -82,19 +82,6 @@ exports.processStripePayment = async (req, res) => {
   }
 };
 
-
-// Fetch all donations for a specific user
-exports.getUserDonation = async (req, res) => {
-  const { donorId } = req.params;
-  try {
-    const donations = await Donation.find({ donorId }).populate('projectId');
-    res.status(200).json(donations);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-
 // Update a donation (e.g., change amount or frequency)
 exports.updateDonation = async (req, res) => {
   const { donationId } = req.params;
@@ -125,5 +112,27 @@ exports.cancelDonation = async (req, res) => {
     res.status(200).json({ message: 'Donation canceled', donation });
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+};
+
+// Fetch all donations for a specific user
+exports.getDonorProjects = async (req, res) => {
+  const { donorId } = req.params;
+
+  try {
+    // Find all donations made by the donor
+    const donations = await Donation.find({ donorId }).populate('projectId', 'campaignName creatorName goalAmount description status');
+
+    if (!donations.length) {
+      return res.status(404).json({ error: 'No donations found for this donor' });
+    }
+
+    // Extract unique projects from the donations
+    const projects = donations.map(donation => donation.projectId);
+
+    res.status(200).json({ projects });
+  } catch (error) {
+    console.error('Error fetching donor projects:', error);
+    res.status(500).json({ error: 'Failed to fetch donor projects' });
   }
 };

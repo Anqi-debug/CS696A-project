@@ -29,9 +29,6 @@ router.delete('/:projectId', projectController.deleteProject);
 router.get('/:projectId/milestones', projectController.getProjectMilestones);
 
 // Get all projects by a specific creator
-router.get('/:creatorId', projectController.getProjectsByCreator);
-
-// Get all projects by a specific creator
-router.get('/sortedProjects', projectController.getSortedProjects);
+router.get('/creator/:creatorId', projectController.getProjectsByCreator);
 
 module.exports = router;

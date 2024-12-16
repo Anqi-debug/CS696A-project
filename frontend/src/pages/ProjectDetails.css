@@ -147,6 +147,27 @@
   font-size: 18px;
 }
 
+.cancel-donation-section {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.cancel-donation-button {
+  background-color: #ef4444;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cancel-donation-button:hover {
+  background-color: #dc2626;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .project-header {
@@ -163,5 +184,46 @@
 
   .funds-raised {
     font-size: 20px;
+  }
+}
+
+.portfolio-section {
+  margin-top: 20px;
+}
+
+.portfolio-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.portfolio-item {
+  flex: 1 1 calc(33.333% - 10px); /* 3 items per row with spacing */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.portfolio-image {
+  width: 100%; /* Adjust to fit the container width */
+  height: auto; /* Maintain aspect ratio */
+  max-height: 300px; /* Optional: Limit the maximum height */
+  object-fit: contain; /* Ensures the full image is visible */
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  .portfolio-item {
+    flex: 1 1 calc(50% - 10px); /* 2 items per row on smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .portfolio-item {
+    flex: 1 1 100%; /* 1 item per row on very small screens */
   }
 }

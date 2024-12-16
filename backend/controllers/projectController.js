@@ -134,8 +134,6 @@ exports.updateProject = async (req, res) => {
   }
 };
 
-
-
 // Delete a project by ID
 exports.deleteProject = async (req, res) => {
   const { projectId } = req.params;
@@ -198,24 +196,5 @@ exports.getProjectsByCreator = async (req, res) => {
   } catch (err) {
     console.error('Error fetching projects by creator:', err);
     res.status(500).json({ error: 'Failed to fetch projects for the creator.' });
-  }
-};
-
-// Get all projects with optional sorting
-exports.getSortedProjects = async (req, res) => {
-  const { sortBy } = req.query; // Get the sort parameter from the query string
-
-  let sortOptions = {};
-  if (sortBy === 'campaignName') {
-    sortOptions.campaignName = 1; // Sort by project name (ascending)
-  } else if (sortBy === 'creatorName') {
-    sortOptions.creatorName = 1; // Sort by creator name (ascending)
-  }
-
-  try {
-    const projects = await Project.find().sort(sortOptions).populate('creatorId', 'name email');
-    res.status(200).json({ projects });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
   }
 };
