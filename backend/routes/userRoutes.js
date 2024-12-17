@@ -6,7 +6,7 @@ router.post('/registration', userController.registration);
 router.post('/login', userController.login);
 router.patch('/password', userController.changePassword);
 router.put('/:userId/portfolio', userController.updatePortfolio);
-router.get('/:userId/info', userController.getUserPortfolio);
+router.get('/:userId/portfolio', userController.getUserPortfolio);
 
 // Create a new user
 router.post('/createUser', userController.createUser);

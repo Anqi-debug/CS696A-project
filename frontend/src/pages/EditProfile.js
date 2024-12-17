@@ -17,7 +17,7 @@ const EditProfile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get(`/users/${userId}/info`);
+        const response = await axios.get(`/users/${userId}/portfolio`);
         const { bio, portfolioItems, socialMediaLinks, role } = response.data.user;
 
         setProfile({ bio, portfolioItems, socialMediaLinks });

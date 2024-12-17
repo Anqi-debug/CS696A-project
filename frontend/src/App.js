@@ -46,7 +46,7 @@ const App = () => {
         <Route path="/donations/donor/:donorId/projects" element={<DonorProjects />} />
         {/* User Routes */}
         <Route path="/users/:userId/portfolio" element={<EditProfile />} />
-        <Route path="/users/:userId/info" element={<UserInfo />} />
+        <Route path="/users/:userId/portfolio" element={<UserInfo />} />
       </Routes>
     </Router>
   );
