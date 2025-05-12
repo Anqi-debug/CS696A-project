@@ -13,8 +13,7 @@ This is a full-stack crowdfunding platform built using the MERN stack (MongoDB, 
 - User registration and login with role-based access (Admin, Creator, Donor)
 - Fundraiser creation and approval workflow
 - Recurring and one-time donation support
-- Milestone-based funding and investment-like donation model
-- Social media promotion and performance analytics
+- Milestone-based funding donation model
 - Notification system for key user events
 - Dashboards for each user type
 - Public profile pages showcasing creator portfolios
